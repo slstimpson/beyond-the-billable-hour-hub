@@ -4,7 +4,7 @@
  * Every figure a visitor types stays in their own browser.
  */
 
-import { fmt, pct, round, toNumber } from './calc.js';
+import { fmt, pct, round, toNumber } from './calc.js?v=3';
 export { fmt, pct, round, toNumber };
 
 const PAGES = [
