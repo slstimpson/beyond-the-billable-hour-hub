@@ -109,6 +109,7 @@
     </form>
 
     <div>
+      <div class="print-only" id="printReport"></div>
       <div id="summary" aria-live="polite"></div>
 
       <div class="card">
@@ -138,6 +139,11 @@
         <p><strong>Three things shorten the wait.</strong> Bill promptly, because nothing can be collected before it is billed. Agree the payment dates when you agree the work, not when the bill is late. Give one named person responsibility for following up.</p>
         <p style="margin-bottom:0">Where a client is suitable for it, a payment plan by standing order across the life of the matter turns an uncertain lump into predictable receipts. Any suspension of work for non-payment must comply with Canon IV(n) and (o), your engagement and the court's procedure.</p>
       </div>
+
+      <div class="btn-row no-print">
+        <button type="button" class="btn" data-print>Print or save as PDF</button>
+        <button type="button" class="btn btn-ghost" data-copy>Copy figures</button>
+      </div>
     </div>
 
   </div>
@@ -145,7 +151,7 @@
 </main>
 
 <script type="module">
-import { chrome, bind, writeFields, figure, workings, lineChart, multiLine, fmt, isDemo, PALETTE } from './assets/ui.js';
+import { chrome, bind, writeFields, figure, workings, lineChart, multiLine, fmt, isDemo, PALETTE , setupReport } from './assets/ui.js';
 import { cashFlow, cashFlowSensitivity, PAPER_PRESETS } from './assets/calc.js';
 
 chrome('cash-flow.html');
@@ -222,7 +228,8 @@ function render(values) {
   document.getElementById('workings').innerHTML = workings(r.workings);
 }
 
-bind(form, render);
+const updateReport = setupReport(form, 'Work to cash');
+bind(form, (values) => { render(values); updateReport(); });
 
 document.getElementById('loadPreset').addEventListener('click', () => {
   const p = PAPER_PRESETS.cashFlow;

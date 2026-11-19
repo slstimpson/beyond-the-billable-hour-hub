@@ -93,6 +93,7 @@
     </form>
 
     <div>
+      <div class="print-only" id="printReport"></div>
       <div id="summary" aria-live="polite"></div>
 
       <div class="card">
@@ -121,6 +122,11 @@
       <div class="note-box">
         <p style="margin-bottom:0"><strong>The price of a tool is more than its subscription.</strong> Count set-up, training, checking, mistakes, downtime, security and the cost of leaving it. A decision to buy should also settle which tools are approved, how client confidentiality is protected and who supervises the output.</p>
       </div>
+
+      <div class="btn-row no-print">
+        <button type="button" class="btn" data-print>Print or save as PDF</button>
+        <button type="button" class="btn btn-ghost" data-copy>Copy figures</button>
+      </div>
     </div>
 
   </div>
@@ -128,7 +134,7 @@
 </main>
 
 <script type="module">
-import { chrome, bind, writeFields, figure, workings, horizontalBars, fmt, pct, round, isDemo, PALETTE } from './assets/ui.js';
+import { chrome, bind, writeFields, figure, workings, horizontalBars, fmt, pct, round, isDemo, PALETTE , setupReport } from './assets/ui.js';
 import { aiEconomics, aiSensitivity, PAPER_PRESETS } from './assets/calc.js';
 
 chrome('ai.html');
@@ -172,7 +178,8 @@ function render(values) {
   document.getElementById('workings').innerHTML = workings(r.workings);
 }
 
-bind(form, render);
+const updateReport = setupReport(form, 'Does the AI saving pay?');
+bind(form, (values) => { render(values); updateReport(); });
 
 document.getElementById('loadPreset').addEventListener('click', () => {
   const p = PAPER_PRESETS.ai;

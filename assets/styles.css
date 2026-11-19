@@ -260,6 +260,23 @@ footer.site .cols { display: grid; gap: 1.5rem; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; color: #555; }
   thead th { background: #e9edf1 !important; color: #111 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .print-only { display: block !important; }
+
+  /* A printed calculator becomes a report: the input panel is replaced by a
+     compact record of what was entered, under a heading and a date. */
+  .split .inputs { display: none !important; }
+  .page-head { display: none; }
+  .report-title { font-size: 16pt; margin: 0 0 .2rem; }
+  .report-meta { font-size: 9pt; color: #444; margin: 0 0 .6rem; }
+  .report-inputs { width: auto; min-width: 60%; margin-bottom: 1rem; font-size: 10pt; }
+  .report-inputs th, .report-inputs td { padding: .2rem .5rem; }
+  .report-inputs td:first-child { text-align: left; }
+  .figures { page-break-inside: avoid; }
+  /* Backgrounds are not printed, so the headline tile is inverted back to
+     dark text on white rather than printing pale and unreadable. */
+  .figure.headline { background: #fff !important; border-left-color: #0e2033 !important; }
+  .figure.headline .value { color: #16202b !important; }
+  .figure.headline .label, .figure.headline .note { color: #41495a !important; }
+  .chart { max-height: 7cm; }
 }
 .print-only { display: none; }
 

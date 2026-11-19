@@ -115,6 +115,7 @@
     </form>
 
     <div>
+      <div class="print-only" id="printReport"></div>
       <div id="results" aria-live="polite"></div>
 
       <div class="note-box caution">
@@ -135,6 +136,11 @@
           <li>Compare it with what you actually collect for an hour. If the second is lower than the first, the work is being done below its cost.</li>
         </ul>
       </div>
+
+      <div class="btn-row no-print">
+        <button type="button" class="btn" data-print>Print or save as PDF</button>
+        <button type="button" class="btn btn-ghost" data-copy>Copy figures</button>
+      </div>
     </div>
 
   </div>
@@ -142,7 +148,7 @@
 </main>
 
 <script type="module">
-import { chrome, bind, writeFields, figure, workings, fmt, pct, round, isDemo, remember } from './assets/ui.js';
+import { chrome, bind, writeFields, figure, workings, fmt, pct, round, isDemo, remember , setupReport } from './assets/ui.js';
 import { costPerHour, costPerHourSensitivity, PAPER_PRESETS } from './assets/calc.js';
 
 chrome('cost-per-hour.html');
@@ -194,7 +200,8 @@ function render(values) {
   }
 }
 
-bind(form, render);
+const updateReport = setupReport(form, 'What an hour costs');
+bind(form, (values) => { render(values); updateReport(); });
 
 document.getElementById('loadPreset').addEventListener('click', () => {
   const p = { ...PAPER_PRESETS.costPerHour };

@@ -24,7 +24,7 @@ A static website. Eight pages, no build step, no framework, no server, no databa
 | `ai.html` | Hours released by an AI tool against its cost, and break-even redeployment |
 | `scorecard.html` | Five starting measures and four further ones, each defined |
 | `plan.html` | The paper's checklist as four weeks, tickable and printable |
-| `resources.html` | The paper, the staged fee clause, the measures and the legal sources |
+| `resources.html` | The paper, the staged fee clause in Word and PDF, the measures and the legal sources |
 
 ## The rule that governs this repository
 
@@ -61,12 +61,16 @@ index.html, check.html, ...   one file per tool, each standalone
 assets/calc.js                every formula, pure functions, no DOM
 assets/ui.js                  page chrome, input binding, SVG charts, printing
 assets/styles.css             the whole design, mobile first
-paper/                        the conference paper as published
+paper/                        the conference paper, and the staged fee clause as .docx and .pdf
 qr/                           QR assets for the keynote slide
 tests/                        verification against the paper
 ```
 
 Calculations are kept entirely separate from the interface. `assets/calc.js` imports nothing and touches nothing outside itself, which is why it can be tested in Node.
+
+Every calculator prints as a report: the input panel is replaced by a record of the figures entered, under a heading and a date, with the calculation expanded. `setupReport()` in `assets/ui.js` builds it and keeps it in step with the form, and the same function supplies the plain-text version behind the Copy button.
+
+The Word and PDF versions of the clause are generated, not hand-made. The script that builds them is kept outside this repository; the text is Appendix B of the paper, reproduced verbatim.
 
 Charts are hand-written SVG in `assets/ui.js`. No charting library, so the site carries no third-party code, loads on a poor connection and prints cleanly.
 

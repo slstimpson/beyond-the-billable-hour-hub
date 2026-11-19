@@ -274,6 +274,104 @@ function shortMoney(v) {
   return `${sign}${Math.round(abs)}`;
 }
 
+
+/* ------------------------------------------------------- printable report
+
+   A calculator is only useful later if the figures behind it travel with it.
+   In print the input panel is replaced by a compact record of what was
+   entered, under a heading and a date, followed by the results as shown. */
+
+export function fieldLabelText(el) {
+  const field = el.closest('.field');
+  const label = field ? field.querySelector('label') : null;
+  if (!label) return el.dataset.field;
+  let text = '';
+  for (const node of label.childNodes) {
+    if (node.nodeType === 3) text += node.textContent;
+  }
+  return text.replace(/\s+/g, ' ').trim() || el.dataset.field;
+}
+
+function fieldValueText(el) {
+  if (el.type === 'range') return `${el.value}%`;
+  if (el.tagName === 'SELECT') return el.options[el.selectedIndex] ? el.options[el.selectedIndex].text : el.value;
+  if (el.value === '') return '\u2014';
+  const n = toNumber(el.value, NaN);
+  if (!Number.isFinite(n)) return el.value;
+  // hours and counts are plain numbers; money carries its prefix in the markup
+  const money = el.closest('.prefix') !== null;
+  return money ? fmt(n) : String(n);
+}
+
+export function collectInputs(form) {
+  return Array.from(form.querySelectorAll('[data-field]')).map((el) => ({
+    label: fieldLabelText(el),
+    value: fieldValueText(el)
+  }));
+}
+
+export function collectFigures(root) {
+  return Array.from((root || document).querySelectorAll('.figure')).map((el) => ({
+    label: (el.querySelector('.label') || {}).textContent || '',
+    value: (el.querySelector('.value') || {}).textContent || ''
+  }));
+}
+
+/* Wires the Print and Copy buttons on a calculator page and keeps the printed
+   record of the inputs in step with the form. Call the returned update()
+   after every recalculation. */
+export function setupReport(form, title) {
+  const host = document.getElementById('printReport');
+  if (!host) return function () {};
+
+  function update() {
+    const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    const inputs = collectInputs(form);
+    host.innerHTML = `
+      <h2 class="report-title">${title}</h2>
+      <p class="report-meta">Practice Economics Hub, ${date}. Figures entered by the user. Illustrative estimates only, not legal, accounting or tax advice.</p>
+      <table class="report-inputs">
+        <thead><tr><th>What was entered</th><th>Value</th></tr></thead>
+        <tbody>${inputs.map((i) => `<tr><td>${i.label}</td><td>${i.value}</td></tr>`).join('')}</tbody>
+      </table>`;
+  }
+
+  const printBtn = document.querySelector('[data-print]');
+  if (printBtn) {
+    printBtn.addEventListener('click', () => {
+      update();
+      // the calculation belongs on the printed record, not folded away
+      document.querySelectorAll('details.working').forEach((d) => { d.open = true; });
+      window.print();
+    });
+  }
+
+  const copyBtn = document.querySelector('[data-copy]');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', (e) => {
+      const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      const lines = [
+        title,
+        `Practice Economics Hub, ${date}`,
+        '',
+        'What you entered',
+        ...collectInputs(form).map((i) => `  ${i.label}: ${i.value}`),
+        '',
+        'Results',
+        ...collectFigures().map((f) => `  ${f.label}: ${f.value}`),
+        '',
+        'Illustrative estimates only. Not legal, accounting or tax advice. A fee must still be',
+        'fair and reasonable under Canon IV(f) in the circumstances of the actual matter.',
+        'From "Beyond the Billable Hour", Stuart L. Stimpson, JAMBAR CLE 2026.'
+      ].join('\n');
+      copyToClipboard(lines, e.target);
+    });
+  }
+
+  update();
+  return update;
+}
+
 /* ------------------------------------------------------- session storage */
 
 /*

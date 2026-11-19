@@ -20,11 +20,14 @@ Built overnight on 19 November 2026 for the keynote that morning. This records w
 | Automated tests against the paper's figures | Done, 37 passing |
 | Browser pass on all pages at 390px and 1280px | Done, no console errors, no overflow |
 | Print layouts for the scorecard, the plan and the diagnostic result | Done |
+| Print and Copy on all four calculators, each printing as a report with a record of the figures entered | Done |
+| The staged fixed-fee clause and its schedule as a Word file and a PDF, linked from Resources | Done |
 | Privacy: no analytics, no tracking, no network calls, no financial data stored | Done |
 
 ## Not built, and why
 
 - **A separate big-screen presentation view.** The keynote deck does not include a live demonstration of the Hub, so this view had nothing to be used for on the day. The print layout already produces a clean large-type page. Worth adding if the Hub is ever shown on screen.
+- **A single combined report across all the tools.** Each tool prints and copies on its own. One report gathering every tool's figures into a single document is a larger job and was not attempted overnight.
 - **A short custom domain.** The address is `slstimpson.github.io/beyond-the-billable-hour-hub/`. The QR code carries it, so length does not matter on the slide. A custom domain can be added later in Settings > Pages without changing anything else, but the QR assets would then need regenerating.
 - **Saving a session between visits.** Deliberate. Figures are never written to durable storage.
 

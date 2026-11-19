@@ -82,6 +82,7 @@
     </form>
 
     <div>
+      <div class="print-only" id="printReport"></div>
       <div id="summary" aria-live="polite"></div>
 
       <div class="card">
@@ -119,6 +120,11 @@
       <div class="note-box">
         <p><strong>A fixed fee does not guarantee the cost of contested litigation.</strong> Where the opponent, the court or the facts drive the work, price the stage in front of you and price the next one when you reach it.</p>
       </div>
+
+      <div class="btn-row no-print">
+        <button type="button" class="btn" data-print>Print or save as PDF</button>
+        <button type="button" class="btn btn-ghost" data-copy>Copy figures</button>
+      </div>
     </div>
 
   </div>
@@ -126,7 +132,7 @@
 </main>
 
 <script type="module">
-import { chrome, bind, writeFields, figure, workings, groupedBars, fmt, pct, isDemo, recall, PALETTE } from './assets/ui.js';
+import { chrome, bind, writeFields, figure, workings, groupedBars, fmt, pct, isDemo, recall, PALETTE , setupReport } from './assets/ui.js';
 import { feeArchitecture, PAPER_PRESETS } from './assets/calc.js';
 
 chrome('fees.html');
@@ -185,7 +191,8 @@ function render(values) {
   document.getElementById('workings').innerHTML = workings(r.workings);
 }
 
-bind(form, render);
+const updateReport = setupReport(form, 'One matter, four prices');
+bind(form, (values) => { render(values); updateReport(); });
 
 document.getElementById('loadPreset').addEventListener('click', () => {
   const p = PAPER_PRESETS.fees;
