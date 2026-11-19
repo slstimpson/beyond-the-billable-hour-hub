@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en-JM">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monthly scorecard | Practice Economics Hub</title>
+<meta name="description" content="Five starting measures for a law practice, each defined and calculated from your own figures, with four more as your records allow.">
+<meta name="theme-color" content="#0e2033">
+<link rel="stylesheet" href="assets/styles.css?v=3">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+</head>
+<body>
+<main id="main">
+<div class="wrap">
+
+  <div class="page-head">
+    <p class="eyebrow">Tool E</p>
+    <h1>Monthly scorecard</h1>
+    <p class="lede">Five measures to begin with, four more as your records improve. Enter the month's totals and each measure is worked out in front of you, with its definition. Compare the result with your own previous months, not with anyone else's figures.</p>
+  </div>
+
+  <div class="split">
+
+    <form class="card inputs" id="inputs" aria-label="This month's totals">
+      <fieldset>
+        <legend>Period</legend>
+        <div class="field">
+          <label for="periodDays">Days in the period</label>
+          <input type="number" id="periodDays" data-field="periodDays" inputmode="numeric" min="1" step="1" value="30">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Cost and hours</legend>
+        <div class="field">
+          <label for="totalCost">Total cost of running the practice
+            <span class="hint">Overhead plus a market allowance for your own fee-earning work</span></label>
+          <div class="prefix"><span>J$</span><input type="number" id="totalCost" data-field="totalCost" inputmode="numeric" min="0" step="10000"></div>
+        </div>
+        <div class="field">
+          <label for="billableHours">Billable hours recorded</label>
+          <input type="number" id="billableHours" data-field="billableHours" inputmode="numeric" min="0" step="1">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Billing and collection</legend>
+        <div class="field">
+          <label for="recordedValue">Recorded value of work done</label>
+          <div class="prefix"><span>J$</span><input type="number" id="recordedValue" data-field="recordedValue" inputmode="numeric" min="0" step="10000"></div>
+        </div>
+        <div class="field">
+          <label for="billed">Fees billed</label>
+          <div class="prefix"><span>J$</span><input type="number" id="billed" data-field="billed" inputmode="numeric" min="0" step="10000"></div>
+        </div>
+        <div class="field">
+          <label for="collected">Fees collected
+            <span class="hint">Follow the same cohort of invoices rather than mixing periods</span></label>
+          <div class="prefix"><span>J$</span><input type="number" id="collected" data-field="collected" inputmode="numeric" min="0" step="10000"></div>
+        </div>
+        <div class="field">
+          <label for="receivables">Unpaid bills outstanding</label>
+          <div class="prefix"><span>J$</span><input type="number" id="receivables" data-field="receivables" inputmode="numeric" min="0" step="10000"></div>
+        </div>
+        <div class="field">
+          <label for="unbilledWork">Work done and not yet billed</label>
+          <div class="prefix"><span>J$</span><input type="number" id="unbilledWork" data-field="unbilledWork" inputmode="numeric" min="0" step="10000"></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Cash and a matter</legend>
+        <div class="field">
+          <label for="officeCash">Unrestricted office cash
+            <span class="hint">Never the clients' trust account</span></label>
+          <div class="prefix"><span>J$</span><input type="number" id="officeCash" data-field="officeCash" inputmode="numeric" min="0" step="10000"></div>
+        </div>
+        <div class="field">
+          <label for="monthlyOutgoings">A month of outgoings</label>
+          <div class="prefix"><span>J$</span><input type="number" id="monthlyOutgoings" data-field="monthlyOutgoings" inputmode="numeric" min="0" step="10000"></div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="matterFee">One matter: fee collected</label>
+            <div class="prefix"><span>J$</span><input type="number" id="matterFee" data-field="matterFee" inputmode="numeric" min="0" step="10000"></div>
+          </div>
+          <div class="field">
+            <label for="matterCost">Its full cost</label>
+            <div class="prefix"><span>J$</span><input type="number" id="matterCost" data-field="matterCost" inputmode="numeric" min="0" step="10000"></div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>For the further measures</legend>
+        <div class="field-row">
+          <div class="field">
+            <label for="overhead">Overhead</label>
+            <div class="prefix"><span>J$</span><input type="number" id="overhead" data-field="overhead" inputmode="numeric" min="0" step="10000"></div>
+          </div>
+          <div class="field">
+            <label for="ownerLabour">Your labour cost</label>
+            <div class="prefix"><span>J$</span><input type="number" id="ownerLabour" data-field="ownerLabour" inputmode="numeric" min="0" step="10000"></div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="techContribution">Tech: extra collected</label>
+            <div class="prefix"><span>J$</span><input type="number" id="techContribution" data-field="techContribution" inputmode="numeric" step="1000"></div>
+          </div>
+          <div class="field">
+            <label for="techCost">Tech: cost</label>
+            <div class="prefix"><span>J$</span><input type="number" id="techCost" data-field="techCost" inputmode="numeric" min="0" step="1000"></div>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="btn-row no-print">
+        <button type="button" class="btn btn-ghost" id="loadExample">Use illustrative figures</button>
+        <button type="button" class="btn btn-ghost" id="clearAll">Clear</button>
+      </div>
+    </form>
+
+    <div>
+      <div class="card">
+        <h2 style="margin-top:0">Start here: five commercial measures</h2>
+        <div class="table-scroll" id="starting" aria-live="polite"></div>
+      </div>
+
+      <div class="card">
+        <h2 style="margin-top:0">Additional measures</h2>
+        <p>Add these as your records allow. Do not apply hourly realisation to fixed-fee work.</p>
+        <div class="table-scroll" id="additional"></div>
+      </div>
+
+      <div class="card">
+        <h2 style="margin-top:0">Mandatory compliance check</h2>
+        <div class="field" style="max-width:20rem">
+          <label for="reconciled">Client-account reconciliation completed to</label>
+          <input type="date" id="reconciled">
+        </div>
+        <div class="note-box caution" style="margin-bottom:0">
+          <p style="margin-bottom:0">This is a compliance obligation under the Legal Profession (Accounts and Records) Regulations, 1999, as amended, and under the Canons. It is not a performance measure, it does not belong among the commercial figures above, and a current reconciliation says nothing about whether the practice is profitable. Confirm the applicable deadline and sign-off for your practice.</p>
+        </div>
+      </div>
+
+      <div class="btn-row no-print">
+        <button type="button" class="btn" id="printBtn">Print or save as PDF</button>
+        <button type="button" class="btn btn-ghost" id="copyBtn">Copy the figures</button>
+        <a class="btn btn-ghost" href="plan.html">The next 30 days</a>
+      </div>
+
+      <div class="note-box">
+        <p style="margin-bottom:0"><strong>No benchmarks are offered here.</strong> There are no verified Jamaican figures for these measures, and an imported foreign average would mislead you. The useful comparison is this month against your own last month, and this quarter against the same quarter last year.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+</main>
+
+<script type="module">
+import { chrome, bind, writeFields, fmt, pct, round, copyToClipboard, isDemo } from './assets/ui.js?v=3';
+import { scorecard } from './assets/calc.js';
+
+chrome('scorecard.html');
+const form = document.getElementById('inputs');
+
+const EXAMPLE = {
+  periodDays: 30, totalCost: 2500000, billableHours: 110,
+  recordedValue: 3500000, billed: 2975000, collected: 2737000,
+  receivables: 3000000, unbilledWork: 1200000,
+  officeCash: 1711000, monthlyOutgoings: 2500000,
+  matterFee: 1500000, matterCost: 909091,
+  overhead: 1600000, ownerLabour: 900000,
+  techContribution: 0, techCost: 35000
+};
+
+function display(m) {
+  if (m.value === null) return '<span style="color:var(--muted)">—</span>';
+  if (m.kind === 'currency') return fmt(m.value);
+  if (m.kind === 'percent') return pct(m.value);
+  if (m.kind === 'days') return `${round(m.value, 0)} days`;
+  if (m.kind === 'months') return `${round(m.value, 1)} months`;
+  return round(m.value, 2);
+}
+
+function rows(list) {
+  return `<table>
+    <thead><tr><th>Measure</th><th>This period</th><th>What it means</th></tr></thead>
+    <tbody>${list.map((m) => `<tr>
+      <td><strong>${m.label}</strong></td>
+      <td style="font-family:var(--serif);font-size:1.05rem;color:var(--ink)">${display(m)}</td>
+      <td style="text-align:left;white-space:normal;font-size:.84rem;color:var(--muted);max-width:30rem">${m.definition}</td>
+    </tr>`).join('')}</tbody>
+  </table>`;
+}
+
+let current = null;
+
+function render(values) {
+  current = scorecard(values);
+  document.getElementById('starting').innerHTML = rows(current.starting);
+  document.getElementById('additional').innerHTML = rows(current.additional);
+}
+
+bind(form, render);
+
+document.getElementById('loadExample').addEventListener('click', () => {
+  writeFields(form, EXAMPLE);
+  form.dispatchEvent(new Event('input', { bubbles: true }));
+});
+
+document.getElementById('clearAll').addEventListener('click', () => {
+  form.querySelectorAll('input[type="number"]').forEach((el) => { el.value = ''; });
+  form.dispatchEvent(new Event('input', { bubbles: true }));
+});
+
+document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+document.getElementById('copyBtn').addEventListener('click', (e) => {
+  if (!current) return;
+  const lines = [
+    'Practice economics scorecard',
+    `Period of ${document.getElementById('periodDays').value || '?'} days`,
+    '',
+    'Start here: five commercial measures',
+    ...current.starting.map((m) => `  ${m.label}: ${display(m).replace(/<[^>]*>/g, '')}`),
+    '',
+    'Additional measures',
+    ...current.additional.map((m) => `  ${m.label}: ${display(m).replace(/<[^>]*>/g, '')}`),
+    '',
+    `Client-account reconciliation completed to: ${document.getElementById('reconciled').value || '[ ]'}`,
+    '',
+    'Compare with your own prior periods. No Jamaican benchmarks are offered.'
+  ].join('\n');
+  copyToClipboard(lines, e.target);
+});
+
+if (isDemo()) document.getElementById('loadExample').click();
+</script>
+</body>
+</html>
