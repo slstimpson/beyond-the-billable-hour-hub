@@ -63,6 +63,7 @@ assets/ui.js                  page chrome, input binding, SVG charts, printing
 assets/styles.css             the whole design, mobile first
 paper/                        the conference paper, and the staged fee clause as .docx and .pdf
 qr/                           QR assets for the keynote slide
+assets/brand/                 the SLS mark and the full lockup, in dark and white
 tests/                        verification against the paper
 ```
 
@@ -73,6 +74,8 @@ Every calculator prints as a report: the input panel is replaced by a record of 
 The Word and PDF versions of the clause are generated, not hand-made. The script that builds them is kept outside this repository; the text is Appendix B of the paper, reproduced verbatim.
 
 Charts are hand-written SVG in `assets/ui.js`. No charting library, so the site carries no third-party code, loads on a poor connection and prints cleanly.
+
+The brand assets are generated from the two source logos: the background is thresholded away so both sit cleanly on dark and light, the lockup carries authorship in the footer, the hero and the head of anything printed, and the mark alone becomes the tab icon. Nothing on the site advertises services or carries contact details.
 
 There are no webfonts, for the same reason. Headings use the system serif, interface text the system sans.
 

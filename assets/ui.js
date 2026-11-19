@@ -38,9 +38,9 @@ export function chrome(active) {
   <footer class="site">
     <div class="wrap cols">
       <div>
+        <img class="footer-brand" src="assets/brand/sls-lockup-white.png" alt="Stuart L. Stimpson, Attorney-at-Law" width="1307" height="360">
         <h4>Practice Economics Hub</h4>
         <p>A companion to <em>Beyond the Billable Hour: The Economics of Modern Legal Practice</em>, the keynote opening Theme 1, Practice Profitability and The Modern Law Firm, at the Jamaican Bar Association Continuing Legal Education Conference, 19 November 2026.</p>
-        <p>Stuart L. Stimpson</p>
       </div>
       <div>
         <h4>Your figures</h4>
@@ -54,7 +54,10 @@ export function chrome(active) {
     </div>
   </footer>`;
 
-  document.body.insertAdjacentHTML('afterbegin', header);
+  const printBrand = '<div class="print-only print-brand">'
+    + '<img src="assets/brand/sls-lockup.png" alt="Stuart L. Stimpson, Attorney-at-Law" width="1307" height="360">'
+    + '</div>';
+  document.body.insertAdjacentHTML('afterbegin', header + printBrand);
   document.body.insertAdjacentHTML('beforeend', footer);
 }
 

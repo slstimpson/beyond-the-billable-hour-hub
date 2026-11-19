@@ -283,3 +283,23 @@ footer.site .cols { display: grid; gap: 1.5rem; }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
+
+/* ------------------------------------------------------------------ brand */
+
+.hero-brand { display: block; width: 15rem; max-width: 60%; height: auto; margin-top: 1.75rem; opacity: .92; }
+.footer-brand { display: block; width: 13rem; max-width: 70%; height: auto; margin-bottom: .9rem; }
+
+/* The brand bar appears only on paper, at the head of anything printed. */
+.print-brand { margin-bottom: .6rem; }
+.print-brand img { height: 12mm; width: auto; }
+
+@media print {
+  /* a little room above so the top of the mark is not clipped at the page edge */
+  .print-brand { display: block !important; padding: 2mm 0 3mm; border-bottom: 1px solid #c3ccd6; }
+}
+
+@media (max-width: 46rem) {
+  .hero-brand { width: 12rem; margin-top: 1.4rem; }
+}
+
+body.present .hero-brand, body.present .footer-brand { display: none; }

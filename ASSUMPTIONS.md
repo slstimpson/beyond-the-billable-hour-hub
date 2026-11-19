@@ -125,7 +125,15 @@ No analytics, no tracking, no cookies, no third-party code, no network requests 
 
 The Hub never asks for a client name, a client account number, a matter description, a privileged document or a banking credential.
 
-## 9. Known limits
+## 9. Links to the sources
+
+Every legal source on the Resources page links to its official publisher: the Ministry of Justice for the Act, the General Legal Council for the Canons, the Accounts and Records Regulations and the Contingency Fees Regulations, the Court of Appeal and the Supreme Court for the judgments and practice directions, and the Caribbean Court of Justice for its own. Links were checked on 19 November 2026.
+
+Two qualifications. Supreme Court Practice Direction No 2 of 2018 is linked to the Court's practice directions index rather than to a document address, because no stable direct address was found. The Law Society of England and Wales restricts automated access to its site, so that address comes from the practice note's own published link rather than from opening the page.
+
+Legislation is amended and pages move. Verify the current text and status of any provision before relying on it in a matter.
+
+## 10. Known limits
 
 - The cash model runs twelve months and assumes a single growth step. A practice with several hiring events or seasonal work needs its own model.
 - The fee tool prices one matter. Firm-wide averages can hide matters that lose money, which is why the paper recommends comparing each completed stage with its own cost.
