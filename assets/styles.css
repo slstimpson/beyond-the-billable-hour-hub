@@ -85,10 +85,39 @@ small { font-size: .82rem; }
 
 /* ------------------------------------------------------------------- hero */
 
-.hero { background: linear-gradient(170deg, var(--navy) 0%, var(--navy-deep) 100%); color: #e9eef4; padding: 2.5rem 0 2.75rem; }
-.hero h1 { color: #fff; font-size: clamp(1.9rem, 6vw, 3rem); max-width: 20ch; }
-.hero .tagline { font-family: var(--serif); font-size: clamp(1rem, 3.2vw, 1.25rem); color: var(--cyan-bright); margin: .25rem 0 1rem; }
-.hero p { color: #bccbd8; max-width: 56ch; }
+.hero { background: linear-gradient(170deg, var(--navy) 0%, var(--navy-deep) 100%); color: #e9eef4; padding: 1.5rem 0 2.75rem; }
+
+/* Top band: the conference on the left, the author on the right, on one line.
+   This is what stops the logo reading as an afterthought at the foot. */
+.hero-top {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 2rem; padding-bottom: 1.25rem; margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, .13);
+}
+.hero-top .eyebrow { margin: 0; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--cyan-bright); font-weight: 600; }
+.hero-brand { display: block; width: 12.5rem; height: auto; flex: none; margin: 0; }
+
+/* Two columns so the width is used: the argument on the left, the facts on
+   the right, instead of an empty half page. */
+.hero-body { display: grid; gap: 2rem; }
+@media (min-width: 62rem) {
+  .hero-body { grid-template-columns: minmax(0, 1.55fr) minmax(16rem, 1fr); gap: 3.5rem; align-items: start; }
+}
+.hero h1 { color: #fff; font-size: clamp(1.9rem, 5.5vw, 2.8rem); max-width: 22ch; margin-bottom: .35rem; }
+.hero .tagline { font-family: var(--serif); font-size: clamp(1rem, 3.2vw, 1.25rem); color: var(--cyan-bright); margin: 0 0 1rem; }
+.hero .hero-lede { color: #bccbd8; max-width: 54ch; margin: 0; }
+
+.hero-facts { margin: 0; display: grid; gap: .9rem; align-content: start; }
+.hero-facts div { border-left: 2px solid rgba(22, 163, 196, .55); padding-left: .85rem; }
+.hero-facts dt { font-size: .72rem; letter-spacing: .09em; text-transform: uppercase; color: #8fa6b8; font-weight: 600; }
+.hero-facts dd { margin: .15rem 0 0; font-size: .92rem; color: #d2dde7; line-height: 1.45; }
+
+@media (max-width: 46rem) {
+  .hero { padding: 1.25rem 0 2.25rem; }
+  .hero-top { flex-direction: column; align-items: flex-start; gap: 1rem; padding-bottom: 1.1rem; margin-bottom: 1.5rem; }
+  .hero-brand { width: 11rem; }
+  .hero-facts { gap: .75rem; }
+}
 
 /* ------------------------------------------------------------------ layout */
 
@@ -286,7 +315,6 @@ footer.site .cols { display: grid; gap: 1.5rem; }
 
 /* ------------------------------------------------------------------ brand */
 
-.hero-brand { display: block; width: 15rem; max-width: 60%; height: auto; margin-top: 1.75rem; opacity: .92; }
 .footer-brand { display: block; width: 13rem; max-width: 70%; height: auto; margin-bottom: .9rem; }
 
 /* The brand bar appears only on paper, at the head of anything printed. */
@@ -299,7 +327,6 @@ footer.site .cols { display: grid; gap: 1.5rem; }
 }
 
 @media (max-width: 46rem) {
-  .hero-brand { width: 12rem; margin-top: 1.4rem; }
 }
 
 body.present .hero-brand, body.present .footer-brand { display: none; }
