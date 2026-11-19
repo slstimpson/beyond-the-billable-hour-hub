@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en-JM">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The next 30 days | Practice Economics Hub</title>
+<meta name="description" content="Four weeks of specific actions on costing, pricing, billing and monthly review, drawn from the paper's checklist.">
+<meta name="theme-color" content="#0e2033">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<main id="main">
+<div class="wrap narrow">
+
+  <div class="page-head">
+    <p class="eyebrow">Tool F</p>
+    <h1>The next 30 days</h1>
+    <p class="lede">The checklist from the paper, set out as four weeks. Tick what you have done, print it or copy it into wherever you keep your tasks. If you took the three-minute check, the items that answer your own priorities are marked.</p>
+  </div>
+
+  <div id="tailored"></div>
+
+  <div id="weeks"></div>
+
+  <div class="card">
+    <h2 style="margin-top:0">After the first month</h2>
+    <p style="font-size:.92rem">The paper sets these out for days 30 to 90, then for the rest of the year.</p>
+    <ul class="clean" id="later"></ul>
+  </div>
+
+  <div class="btn-row no-print">
+    <button type="button" class="btn" id="printBtn">Print or save as PDF</button>
+    <button type="button" class="btn btn-ghost" id="copyBtn">Copy the plan</button>
+    <button type="button" class="btn btn-ghost" id="resetBtn">Clear the ticks</button>
+  </div>
+
+  <div class="note-box">
+    <p style="margin-bottom:0">Your ticks are kept in this browser tab only and disappear when you close it. Print the page or copy the text if you want to keep it.</p>
+  </div>
+
+</div>
+</main>
+
+<script type="module">
+import { chrome, recall, remember, copyToClipboard } from './assets/ui.js';
+
+chrome('plan.html');
+
+/* Items are the paper's own checklist, grouped into the four weeks.
+   `tag` links an item to the diagnostic question it answers. */
+const WEEKS = [
+  {
+    title: 'Week 1: Understand your costs',
+    items: [
+      { id: 'w1a', tag: 'cost', text: 'Calculate the five starting measures: cost per billable hour, collection rate, debtor days, cash reserve and matter contribution margin.', link: 'scorecard.html' },
+      { id: 'w1b', tag: 'cost', text: 'Cost one recurring type of work properly, counting every cost of delivery including a market allowance for your own labour.', link: 'cost-per-hour.html' },
+      { id: 'w1c', tag: 'cost', text: 'Cost ten completed matters of that type and compare what each actually collected with what it actually cost.' },
+      { id: 'w1d', compliance: true, text: 'Reconcile the clients’ trust account and classify every advance you hold. A compliance obligation, not a performance measure.' }
+    ]
+  },
+  {
+    title: 'Week 2: Review your fee arrangements',
+    items: [
+      { id: 'w2a', tag: 'pricing', text: 'Check the type of work you costed against the guide on where fixed pricing fits and where it does not.' },
+      { id: 'w2b', tag: 'pricing', text: 'Divide one suitable matter type into stages and price each stage from its cost, then test the price against Canon IV(f).', link: 'fees.html' },
+      { id: 'w2c', tag: 'engagement', text: 'Redraft one engagement letter: stages, assumptions, exclusions, payment before each stage and a priced process for changes of scope.', link: 'resources.html#clause' },
+      { id: 'w2d', tag: 'engagement', text: 'Settle how you will account if an engagement ends mid-stage, and record that an advance for work not yet done remains client money.' }
+    ]
+  },
+  {
+    title: 'Week 3: Improve billing and collection',
+    items: [
+      { id: 'w3a', tag: 'collection', text: 'List every piece of unbilled work older than 30 days, with a name and a date against each.' },
+      { id: 'w3b', tag: 'collection', text: 'List every unpaid bill the same way, oldest first.' },
+      { id: 'w3c', tag: 'collection', text: 'Fix a billing date each month and name the person responsible for billing and for following up every debt.' },
+      { id: 'w3d', tag: 'collection', text: 'Model what your billing and collection delays do to the office account, and decide the reserve you need.', link: 'cash-flow.html' }
+    ]
+  },
+  {
+    title: 'Week 4: Establish a monthly financial review',
+    items: [
+      { id: 'w4a', tag: 'review', text: 'Put the five measures on one page and fix a date each month to review them.', link: 'scorecard.html' },
+      { id: 'w4b', tag: 'review', text: 'Compare this month with your own previous months. Do not import a foreign benchmark.' },
+      { id: 'w4c', text: 'Work out whether any technology you pay for has produced collected contribution, rather than hypothetical savings.', link: 'ai.html' },
+      { id: 'w4d', text: 'Adopt written rules on AI: approved tools, client confidentiality, verification and the court declarations required by Practice Direction No 1 of 2025.' }
+    ]
+  }
+];
+
+const LATER = [
+  'Keep time and cost records on the pilot matters. Compare the actual full cost and collected contribution of each stage with its budget.',
+  'Extend stage pricing to another type of matter only after checking quality, client experience, collection and budgeted against actual contribution on the pilot matters.',
+  'Keep hourly billing for work whose scope cannot responsibly be predicted, with an estimate and reporting dates.',
+  'Change bonus criteria so that hours recorded no longer outrank quality and collected contribution.'
+];
+
+const PRIORITY_TAGS = { 'Cost your hour before you price anything': 'cost', 'Test one type of work priced by stage': 'pricing', 'Measure the gap between billing and payment': 'collection', 'Redraft one engagement letter': 'engagement', 'Put five measures on one page each month': 'review' };
+const priorities = (recall('priorities', []) || []).map((t) => PRIORITY_TAGS[t]).filter(Boolean);
+const ticks = recall('planTicks', {}) || {};
+
+if (priorities.length) {
+  document.getElementById('tailored').innerHTML = `<div class="note-box">
+    <p style="margin-bottom:0"><strong>Marked for you.</strong> Items carrying a mark answer the priorities from your three-minute check. If you do nothing else this month, do those.</p>
+  </div>`;
+}
+
+document.getElementById('weeks').innerHTML = WEEKS.map((w) => `
+  <div class="week">
+    <h3>${w.title}</h3>
+    <ul>
+      ${w.items.map((item) => {
+        const flagged = item.tag && priorities.includes(item.tag);
+        return `<li class="${ticks[item.id] ? 'done' : ''}">
+          <input type="checkbox" id="${item.id}"${ticks[item.id] ? ' checked' : ''}>
+          <label for="${item.id}">${item.text}
+            ${flagged ? ' <span class="pill pill-model">your priority</span>' : ''}
+            ${item.compliance ? ' <span class="pill pill-law">compliance</span>' : ''}
+            ${item.link ? ` <a href="${item.link}">open the tool</a>` : ''}
+          </label>
+        </li>`;
+      }).join('')}
+    </ul>
+  </div>`).join('');
+
+document.getElementById('later').innerHTML = LATER.map((t) => `<li>${t}</li>`).join('');
+
+document.getElementById('weeks').addEventListener('change', (e) => {
+  if (e.target.type !== 'checkbox') return;
+  ticks[e.target.id] = e.target.checked;
+  e.target.closest('li').classList.toggle('done', e.target.checked);
+  remember('planTicks', ticks);
+});
+
+document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  Object.keys(ticks).forEach((k) => delete ticks[k]);
+  remember('planTicks', ticks);
+  document.querySelectorAll('#weeks input[type="checkbox"]').forEach((el) => {
+    el.checked = false;
+    el.closest('li').classList.remove('done');
+  });
+});
+
+document.getElementById('copyBtn').addEventListener('click', (e) => {
+  const text = [
+    'The next 30 days',
+    '',
+    ...WEEKS.flatMap((w) => [w.title, ...w.items.map((i) => `  [${ticks[i.id] ? 'x' : ' '}] ${i.text}`), '']),
+    'After the first month',
+    ...LATER.map((t) => `  [ ] ${t}`),
+    '',
+    'From "Beyond the Billable Hour: The Economics of Modern Legal Practice", Stuart L. Stimpson, JAMBAR CLE 2026.'
+  ].join('\n');
+  copyToClipboard(text, e.target);
+});
+</script>
+</body>
+</html>

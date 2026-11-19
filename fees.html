@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en-JM">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One matter, four prices | Practice Economics Hub</title>
+<meta name="description" content="Compare hourly, capped, fixed and staged fees on the same matter, and see who carries the risk when the work runs long.">
+<meta name="theme-color" content="#0e2033">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<main id="main">
+<div class="wrap">
+
+  <div class="page-head">
+    <p class="eyebrow">Tool B</p>
+    <h1>One matter, four prices</h1>
+    <p class="lede">The same piece of work, priced four ways, as it runs short or long. The arrangement decides who carries the risk of an overrun and who keeps the benefit of working efficiently.</p>
+  </div>
+
+  <div class="split">
+
+    <form class="card inputs" id="inputs" aria-label="Your figures">
+      <fieldset>
+        <legend>The matter</legend>
+        <div class="field">
+          <label for="expectedHours">Professional hours expected</label>
+          <input type="number" id="expectedHours" data-field="expectedHours" inputmode="numeric" min="0" step="1" value="40">
+        </div>
+        <div class="field">
+          <label for="hourlyRate">Your hourly rate</label>
+          <div class="prefix"><span>J$</span><input type="number" id="hourlyRate" data-field="hourlyRate" inputmode="numeric" min="0" step="500" value="35000"></div>
+        </div>
+        <div class="field">
+          <label for="costPerHour">Cost of an hour to deliver
+            <span class="hint" id="costHint">From <a href="cost-per-hour.html">what an hour costs</a></span></label>
+          <div class="prefix"><span>J$</span><input type="number" id="costPerHour" data-field="costPerHour" inputmode="decimal" min="0" step="any" value="22727.27"></div>
+        </div>
+        <div class="field">
+          <label for="extraCosts">Other delivery cost for this matter
+            <span class="hint">Counsel, searches, anything you carry. Not disbursements the client pays.</span></label>
+          <div class="prefix"><span>J$</span><input type="number" id="extraCosts" data-field="extraCosts" inputmode="numeric" min="0" step="1000" value="0"></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>The four arrangements</legend>
+        <div class="field">
+          <label for="cap">Cap on hourly charges</label>
+          <div class="prefix"><span>J$</span><input type="number" id="cap" data-field="cap" inputmode="numeric" min="0" step="10000" value="1400000"></div>
+        </div>
+        <div class="field">
+          <label for="fixedFee">Fixed fee</label>
+          <div class="prefix"><span>J$</span><input type="number" id="fixedFee" data-field="fixedFee" inputmode="numeric" min="0" step="10000" value="1500000"></div>
+        </div>
+        <div class="field">
+          <label for="hybridStageOne">Staged: price of the defined first stage</label>
+          <div class="prefix"><span>J$</span><input type="number" id="hybridStageOne" data-field="hybridStageOne" inputmode="numeric" min="0" step="10000" value="1100000"></div>
+        </div>
+        <div class="field">
+          <label for="laterStageShare">Share of hours falling in the later stage <span class="range-value" id="laterOut">25%</span>
+            <span class="hint">Later-stage hours are charged at your hourly rate on top of the stage price</span></label>
+          <input type="range" id="laterStageShare" data-field="laterStageShare" min="0" max="100" step="5" value="25" data-output="laterOut" data-output-format="percent">
+        </div>
+        <div class="field">
+          <label for="contingency">Risk allowance added to the fixed fee <span class="range-value" id="contingencyOut">0%</span></label>
+          <input type="range" id="contingency" data-field="contingency" min="0" max="50" step="5" value="0" data-output="contingencyOut" data-output-format="percent">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Collection</legend>
+        <div class="field">
+          <label for="collection">Share of the fee you expect to collect <span class="range-value" id="collectionOut">100%</span></label>
+          <input type="range" id="collection" data-field="collection" min="0" max="100" step="1" value="100" data-output="collectionOut" data-output-format="percent">
+        </div>
+      </fieldset>
+
+      <div class="btn-row no-print">
+        <button type="button" class="btn btn-ghost" id="loadPreset">Use the paper's example</button>
+      </div>
+    </form>
+
+    <div>
+      <div id="summary" aria-live="polite"></div>
+
+      <div class="card">
+        <h2 style="margin-top:0">Fee charged</h2>
+        <div id="feeChart"></div>
+        <div class="table-scroll" id="feeTable"></div>
+      </div>
+
+      <div class="card">
+        <h2 style="margin-top:0">What the practice keeps</h2>
+        <p>Contribution is the fee you collect less the cost of delivering the work. It is not profit: it has not yet paid for the overhead of matters that never came in, tax, financing or bad debts.</p>
+        <div id="contributionChart"></div>
+        <div class="table-scroll" id="contributionTable"></div>
+        <div id="workings"></div>
+      </div>
+
+      <div class="note-box caution">
+        <p><strong>An attractive model does not make a fee proper.</strong> Whatever this screen shows, the fee must be fair and reasonable under Canon IV(f) in the actual circumstances: the time and labour, the difficulty, the skill required, the customary fee for similar work, the amount involved, the urgency, your experience and reputation and whether the fee is fixed or contingent.</p>
+        <p>A fixed fee is not fully earned merely because a retainer ends early. Unearned sums must be accounted for. A fixed fee must never reward thin service, and clients with much at stake and limited means need particular care in matching scope and price to what they actually need.</p>
+      </div>
+
+      <div class="note-box rule">
+        <p><strong>Before you quote a fixed or staged fee, settle these in writing.</strong></p>
+        <ul class="clean" style="margin-top:.5rem">
+          <li><strong>Scope.</strong> What the stage includes, deliverable by deliverable.</li>
+          <li><strong>Assumptions.</strong> What must hold true for the price to stand: records supplied by a date, one claimant, no new party.</li>
+          <li><strong>Exclusions.</strong> Appeals, further applications, experts, extra hearings.</li>
+          <li><strong>Authorisation.</strong> Each stage approved in writing before it starts, and a priced process for changes of scope.</li>
+          <li><strong>Termination.</strong> How you will account if the engagement ends mid-stage, subject to the stage fee as a ceiling and to the fee being fair and reasonable.</li>
+          <li><strong>Disbursements and GCT.</strong> Named, estimated and approved, and stated to be outside the fee.</li>
+        </ul>
+        <p style="margin:.6rem 0 0"><a href="resources.html#clause">The staged fixed-fee clause from Appendix B</a></p>
+      </div>
+
+      <div class="note-box">
+        <p><strong>A fixed fee does not guarantee the cost of contested litigation.</strong> Where the opponent, the court or the facts drive the work, price the stage in front of you and price the next one when you reach it.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+</main>
+
+<script type="module">
+import { chrome, bind, writeFields, figure, workings, groupedBars, fmt, pct, isDemo, recall, PALETTE } from './assets/ui.js';
+import { feeArchitecture, PAPER_PRESETS } from './assets/calc.js';
+
+chrome('fees.html');
+
+const form = document.getElementById('inputs');
+const MODELS = [
+  { key: 'hourly', label: 'Hourly', colour: PALETTE.hourly },
+  { key: 'capped', label: 'Capped', colour: PALETTE.capped },
+  { key: 'fixed', label: 'Fixed', colour: PALETTE.fixed },
+  { key: 'hybrid', label: 'Staged', colour: PALETTE.hybrid }
+];
+
+// If the visitor has already worked out their cost per hour, carry it over.
+const carried = recall('costPerHour');
+if (carried) {
+  document.getElementById('costPerHour').value = Math.round(carried);
+  document.getElementById('costHint').innerHTML = 'Carried over from your own calculation';
+}
+
+function table(rows, pick, caption) {
+  return `<table>
+    <thead><tr><th>If the work takes</th><th>Hours</th>${MODELS.map((m) => `<th>${m.label}</th>`).join('')}</tr></thead>
+    <tbody>${rows.map((row) => `<tr${row.label === 'On estimate' ? ' class="highlight"' : ''}>
+      <td>${row.label}</td><td>${Math.round(row.hours)}</td>
+      ${MODELS.map((m) => {
+        const v = pick(row, m.key);
+        return `<td class="${v < 0 ? 'neg' : ''}">${fmt(v)}</td>`;
+      }).join('')}
+    </tr>`).join('')}</tbody>
+    <caption>${caption}</caption>
+  </table>`;
+}
+
+function render(values) {
+  const r = feeArchitecture(values);
+  const onEstimate = r.scenarios.find((s) => s.label === 'On estimate') || r.scenarios[0];
+  const worst = r.scenarios[r.scenarios.length - 1];
+
+  document.getElementById('summary').innerHTML = `
+    <div class="figures">
+      ${figure({ label: 'Cost to deliver, on estimate', value: fmt(onEstimate.allocatedCost), note: `${Math.round(onEstimate.hours)} hours at ${fmt(r.inputs.costRate)}`, headline: true })}
+      ${figure({ label: 'Fixed fee contribution, on estimate', value: fmt(onEstimate.contribution.fixed), note: `Margin ${pct(onEstimate.margin.fixed)}`, tone: onEstimate.contribution.fixed < 0 ? 'neg' : '' })}
+      ${figure({ label: 'Fixed fee contribution, 50% overrun', value: fmt(worst.contribution.fixed), note: 'The firm carries the overrun', tone: worst.contribution.fixed < 0 ? 'neg' : '' })}
+      ${figure({ label: 'Capped fee contribution, 50% overrun', value: fmt(worst.contribution.capped), note: 'A cap protects the client and cuts your contribution', tone: worst.contribution.capped < 0 ? 'neg' : '' })}
+    </div>`;
+
+  const feeRows = r.scenarios.map((s) => ({ label: s.label.replace(/ \(.*\)/, ''), values: s.fees }));
+  const contRows = r.scenarios.map((s) => ({ label: s.label.replace(/ \(.*\)/, ''), values: s.contribution }));
+
+  document.getElementById('feeChart').innerHTML = groupedBars(feeRows, MODELS);
+  document.getElementById('feeTable').innerHTML = table(r.scenarios, (row, k) => row.fees[k],
+    'What the client is charged under each arrangement.');
+  document.getElementById('contributionChart').innerHTML = groupedBars(contRows, MODELS);
+  document.getElementById('contributionTable').innerHTML = table(r.scenarios, (row, k) => row.contribution[k],
+    'Fee collected less the cost of delivering the work. Hypothetical figures, before tax and disbursements.');
+  document.getElementById('workings').innerHTML = workings(r.workings);
+}
+
+bind(form, render);
+
+document.getElementById('loadPreset').addEventListener('click', () => {
+  const p = PAPER_PRESETS.fees;
+  writeFields(form, {
+    expectedHours: p.expectedHours, hourlyRate: p.hourlyRate, costPerHour: p.costPerHour,
+    cap: p.cap, fixedFee: p.fixedFee, hybridStageOne: p.hybridStageOne,
+    laterStageShare: 25, contingency: 0, collection: 100, extraCosts: 0
+  });
+  form.dispatchEvent(new Event('input', { bubbles: true }));
+});
+
+if (isDemo()) document.getElementById('loadPreset').click();
+</script>
+</body>
+</html>
