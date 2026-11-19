@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en-JM">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Work to cash | Practice Economics Hub</title>
+<meta name="description" content="Work, record, bill, collect. Four events, often months apart. See why a practice can be busy, profitable on paper and short of cash.">
+<meta name="theme-color" content="#0e2033">
+<link rel="stylesheet" href="assets/styles.css?v=3">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+</head>
+<body>
+<main id="main">
+<div class="wrap">
+
+  <div class="page-head">
+    <p class="eyebrow">Tool C</p>
+    <h1>Work to cash</h1>
+    <p class="lede">Work performed, work recorded, fee billed, money collected. Four events, often months apart, and only the last one pays salaries. Set your own delays and watch what happens to the office account.</p>
+  </div>
+
+  <div class="card" style="padding:1rem 1.25rem">
+    <div class="legend" style="margin:0;font-size:.85rem">
+      <span><i style="background:#0e2033"></i>Work recorded</span>
+      <span>&rarr;</span>
+      <span><i style="background:#44607d"></i>Billed, after your billing delay</span>
+      <span>&rarr;</span>
+      <span><i style="background:#0b7f9b"></i>Collected, after your clients pay</span>
+      <span>&rarr;</span>
+      <span><i style="background:#16a3c4"></i>Cash you can spend</span>
+    </div>
+  </div>
+
+  <div class="split">
+
+    <form class="card inputs" id="inputs" aria-label="Your figures">
+      <fieldset>
+        <legend>The practice now</legend>
+        <div class="field">
+          <label for="openingCash">Office cash you hold today
+            <span class="hint">Unrestricted office money only. Never the clients' account.</span></label>
+          <div class="prefix"><span>J$</span><input type="number" id="openingCash" data-field="openingCash" inputmode="numeric" step="10000"></div>
+        </div>
+        <div class="field">
+          <label for="recordedValue">Work recorded each month, at your rates</label>
+          <div class="prefix"><span>J$</span><input type="number" id="recordedValue" data-field="recordedValue" inputmode="numeric" min="0" step="10000"></div>
+        </div>
+        <div class="field">
+          <label for="overhead">Monthly overhead</label>
+          <div class="prefix"><span>J$</span><input type="number" id="overhead" data-field="overhead" inputmode="numeric" min="0" step="10000"></div>
+        </div>
+        <div class="field">
+          <label for="drawings">Monthly drawings, payroll for yourself and debt service</label>
+          <div class="prefix"><span>J$</span><input type="number" id="drawings" data-field="drawings" inputmode="numeric" min="0" step="10000"></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Timing</legend>
+        <div class="field">
+          <label for="billingDelay">Months between doing the work and billing it</label>
+          <select id="billingDelay" data-field="billingDelay">
+            <option value="0">Same month</option>
+            <option value="1" selected>1 month</option>
+            <option value="2">2 months</option>
+            <option value="3">3 months</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="collectionDelay">Months between billing and being paid</label>
+          <select id="collectionDelay" data-field="collectionDelay">
+            <option value="1">About 30 days</option>
+            <option value="2" selected>About 60 days</option>
+            <option value="3">About 90 days</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="realisation">Realisation <span class="range-value" id="realisationOut">100%</span>
+            <span class="hint">Recorded value that becomes a bill</span></label>
+          <input type="range" id="realisation" data-field="realisation" min="40" max="100" step="1" value="100" data-output="realisationOut" data-output-format="percent">
+        </div>
+        <div class="field">
+          <label for="collection">Collection <span class="range-value" id="collectionOut">100%</span>
+            <span class="hint">Bills eventually paid</span></label>
+          <input type="range" id="collection" data-field="collection" min="40" max="100" step="1" value="100" data-output="collectionOut" data-output-format="percent">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>If you grow</legend>
+        <div class="field">
+          <label for="growthMonth">Growth starts in month</label>
+          <input type="number" id="growthMonth" data-field="growthMonth" inputmode="numeric" min="1" max="12" step="1">
+        </div>
+        <div class="field">
+          <label for="recordedValueAfterGrowth">Work recorded a month after growth</label>
+          <div class="prefix"><span>J$</span><input type="number" id="recordedValueAfterGrowth" data-field="recordedValueAfterGrowth" inputmode="numeric" min="0" step="10000"></div>
+        </div>
+        <div class="field">
+          <label for="overheadAfterGrowth">Monthly overhead after growth
+            <span class="hint">The new salary starts at once. The fees arrive later.</span></label>
+          <div class="prefix"><span>J$</span><input type="number" id="overheadAfterGrowth" data-field="overheadAfterGrowth" inputmode="numeric" min="0" step="10000"></div>
+        </div>
+      </fieldset>
+
+      <div class="btn-row no-print">
+        <button type="button" class="btn" id="loadPreset">Show the paper’s example</button>
+        <button type="button" class="btn btn-ghost" id="noGrowth">Model no growth</button>
+      </div>
+    </form>
+
+    <div>
+      <div class="print-only" id="printReport"></div>
+      <div id="summary" aria-live="polite"></div>
+
+      <div class="card">
+        <h2 style="margin-top:0">Cash at the end of each month</h2>
+        <div id="cashChart"></div>
+        <p style="font-size:.85rem;color:var(--muted);margin:.3rem 0 0">Twelve months on your figures. A point in red is a month the office account runs dry.</p>
+      </div>
+
+      <div class="card">
+        <h2 style="margin-top:0">The same work, paid at three different speeds</h2>
+        <p>The work billed and the share finally collected are identical in all three. Only the waiting changes.</p>
+        <div id="delayChart"></div>
+        <div id="delaySummary"></div>
+      </div>
+
+      <div class="card">
+        <h2 style="margin-top:0">Month by month</h2>
+        <div class="table-scroll" id="monthTable"></div>
+        <div id="workings"></div>
+      </div>
+
+      <div class="note-box caution">
+        <p><strong>Client money is not in this model and must never be in your cash plan.</strong> Money held in the clients' trust account belongs to the client. An advance for work not yet done is client money, whatever the engagement calls it, and it may be transferred only against fees properly earned and billed, or as the law otherwise permits. The Legal Profession (Accounts and Records) Regulations, 1999, as amended, govern this. Nothing here can tell you whether a particular transfer is lawful.</p>
+      </div>
+
+      <div class="note-box">
+        <p><strong>Three things shorten the wait.</strong> Bill promptly, because nothing can be collected before it is billed. Agree the payment dates when you agree the work, not when the bill is late. Give one named person responsibility for following up.</p>
+        <p style="margin-bottom:0">Where a client is suitable for it, a payment plan by standing order across the life of the matter turns an uncertain lump into predictable receipts. Any suspension of work for non-payment must comply with Canon IV(n) and (o), your engagement and the court's procedure.</p>
+      </div>
+
+      <div class="btn-row no-print">
+        <button type="button" class="btn" data-print>Print or save as PDF</button>
+        <button type="button" class="btn btn-ghost" data-copy>Copy figures</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</main>
+
+<script type="module">
+import { chrome, bind, writeFields, figure, workings, lineChart, multiLine, fmt, isDemo, PALETTE , setupReport, emptyState, blank } from './assets/ui.js?v=3';
+import { cashFlow, cashFlowSensitivity, PAPER_PRESETS } from './assets/calc.js';
+
+chrome('cash-flow.html');
+const form = document.getElementById('inputs');
+
+function render(values) {
+  const nothing = blank(values.recordedValue) || blank(values.overhead);
+  if (nothing) {
+    document.getElementById('summary').innerHTML = emptyState(
+      'Enter the work you record each month and what the practice costs to run.',
+      'The office account is then modelled across twelve months on your own billing and collection delays. Show the paper’s example if you would rather see the shape of it first.');
+    document.getElementById('cashChart').innerHTML = '';
+    document.getElementById('delayChart').innerHTML = '';
+    document.getElementById('delaySummary').innerHTML = '';
+    document.getElementById('monthTable').innerHTML = '';
+    document.getElementById('workings').innerHTML = '';
+    return;
+  }
+  const input = { ...values, months: 12 };
+  const r = cashFlow(input);
+  const low = r.lowestCash;
+
+  document.getElementById('summary').innerHTML = `
+    <div class="figures">
+      ${figure({
+        label: 'Lowest cash in the year',
+        value: fmt(low.cash),
+        note: low.month ? `In month ${low.month}` : 'At the start',
+        headline: true
+      })}
+      ${figure({
+        label: 'Months the account runs dry',
+        value: r.shortfallMonths.length ? r.shortfallMonths.join(', ') : 'None',
+        note: r.shortfallMonths.length ? 'Working capital or finance needed' : 'On these assumptions'
+      })}
+      ${figure({
+        label: 'Peak funding needed',
+        value: r.peakRequirement ? fmt(r.peakRequirement) : 'None',
+        note: 'The deepest the account goes below zero',
+        tone: r.peakRequirement ? 'neg' : ''
+      })}
+      ${figure({
+        label: 'Surplus before your drawings',
+        value: fmt(r.rows[r.rows.length - 1].surplusBeforeDrawings),
+        note: 'Billed less overhead in month 12. Not profit you can take out.'
+      })}
+    </div>`;
+
+  document.getElementById('cashChart').innerHTML = lineChart(
+    r.rows.map((row) => ({ label: String(row.month), value: row.cash }))
+  );
+
+  const delays = cashFlowSensitivity(input);
+  document.getElementById('delayChart').innerHTML = multiLine(delays.map((d, i) => ({
+    label: `Paid in about ${d.label}`,
+    colour: [PALETTE.hybrid, PALETTE.fixed, PALETTE.hourly][i],
+    emphasis: d.collectionDelay === Number(values.collectionDelay),
+    points: d.rows.map((row) => ({ label: String(row.month), value: row.cash }))
+  })));
+
+  document.getElementById('delaySummary').innerHTML = `<div class="table-scroll"><table>
+    <thead><tr><th>Clients pay in</th><th>Lowest cash</th><th>In month</th><th>Months short</th></tr></thead>
+    <tbody>${delays.map((d) => `<tr class="${d.collectionDelay === Number(values.collectionDelay) ? 'highlight' : ''}">
+      <td>About ${d.label}</td>
+      <td class="${d.lowestCash.cash < 0 ? 'neg' : ''}">${fmt(d.lowestCash.cash)}</td>
+      <td>${d.lowestCash.month || '—'}</td>
+      <td>${d.shortfallMonths.length ? d.shortfallMonths.join(', ') : 'None'}</td>
+    </tr>`).join('')}</tbody>
+    <caption>Debtor days are not an administrative detail. They decide whether you can meet payroll.</caption>
+  </table></div>`;
+
+  document.getElementById('monthTable').innerHTML = `<table>
+    <thead><tr><th>Month</th><th>Recorded</th><th>Billed</th><th>Collected</th><th>Overhead</th><th>Surplus before drawings</th><th>Cash at month end</th></tr></thead>
+    <tbody>${r.rows.map((row) => `<tr class="${row.month === low.month ? 'highlight' : ''}">
+      <td>${row.month}</td>
+      <td>${fmt(row.recorded)}</td>
+      <td>${fmt(row.billed)}</td>
+      <td>${fmt(row.receipts)}</td>
+      <td>${fmt(row.overhead)}</td>
+      <td class="${row.surplusBeforeDrawings < 0 ? 'neg' : ''}">${fmt(row.surplusBeforeDrawings)}</td>
+      <td class="${row.cash < 0 ? 'neg' : ''}">${fmt(row.cash)}</td>
+    </tr>`).join('')}</tbody>
+    <caption>Receipts before the delay reaches back into the model come from work already in hand. The surplus column excludes your pay, tax, financing and bad debts, so it is not profit.</caption>
+  </table>`;
+
+  document.getElementById('workings').innerHTML = workings(r.workings);
+}
+
+const updateReport = setupReport(form, 'Work to cash');
+bind(form, (values) => { render(values); updateReport(); });
+
+document.getElementById('loadPreset').addEventListener('click', () => {
+  const p = PAPER_PRESETS.cashFlow;
+  writeFields(form, {
+    openingCash: p.openingCash, recordedValue: p.recordedValue, overhead: p.overhead,
+    drawings: p.drawings, billingDelay: 1, collectionDelay: 2, realisation: 85, collection: 92,
+    growthMonth: p.growthMonth, recordedValueAfterGrowth: p.recordedValueAfterGrowth,
+    overheadAfterGrowth: p.overheadAfterGrowth
+  });
+  form.dispatchEvent(new Event('input', { bubbles: true }));
+});
+
+document.getElementById('noGrowth').addEventListener('click', () => {
+  writeFields(form, {
+    recordedValueAfterGrowth: document.getElementById('recordedValue').value,
+    overheadAfterGrowth: document.getElementById('overhead').value
+  });
+  form.dispatchEvent(new Event('input', { bubbles: true }));
+});
+
+if (isDemo()) document.getElementById('loadPreset').click();
+</script>
+</body>
+</html>
