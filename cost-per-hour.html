@@ -29,52 +29,52 @@
         <div class="field">
           <label for="salaries">Staff salaries and employment costs
             <span class="hint">Everyone other than you</span></label>
-          <div class="prefix"><span>J$</span><input type="number" id="salaries" data-field="salaries" inputmode="numeric" min="0" step="1000" value="0"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="salaries" data-field="salaries" inputmode="numeric" min="0" step="1000"></div>
         </div>
 
         <div class="field-row">
           <div class="field">
             <label for="premises">Premises</label>
-            <div class="prefix"><span>J$</span><input type="number" id="premises" data-field="premises" inputmode="numeric" min="0" step="1000" value="0"></div>
+            <div class="prefix"><span>J$</span><input type="number" id="premises" data-field="premises" inputmode="numeric" min="0" step="1000"></div>
           </div>
           <div class="field">
             <label for="utilities">Utilities</label>
-            <div class="prefix"><span>J$</span><input type="number" id="utilities" data-field="utilities" inputmode="numeric" min="0" step="1000" value="0"></div>
+            <div class="prefix"><span>J$</span><input type="number" id="utilities" data-field="utilities" inputmode="numeric" min="0" step="1000"></div>
           </div>
         </div>
 
         <div class="field-row">
           <div class="field">
             <label for="insurance">Insurance</label>
-            <div class="prefix"><span>J$</span><input type="number" id="insurance" data-field="insurance" inputmode="numeric" min="0" step="1000" value="0"></div>
+            <div class="prefix"><span>J$</span><input type="number" id="insurance" data-field="insurance" inputmode="numeric" min="0" step="1000"></div>
           </div>
           <div class="field">
             <label for="software">Software</label>
-            <div class="prefix"><span>J$</span><input type="number" id="software" data-field="software" inputmode="numeric" min="0" step="1000" value="0"></div>
+            <div class="prefix"><span>J$</span><input type="number" id="software" data-field="software" inputmode="numeric" min="0" step="1000"></div>
           </div>
         </div>
 
         <div class="field-row">
           <div class="field">
             <label for="professional">Professional and regulatory</label>
-            <div class="prefix"><span>J$</span><input type="number" id="professional" data-field="professional" inputmode="numeric" min="0" step="1000" value="0"></div>
+            <div class="prefix"><span>J$</span><input type="number" id="professional" data-field="professional" inputmode="numeric" min="0" step="1000"></div>
           </div>
           <div class="field">
             <label for="administration">Administration</label>
-            <div class="prefix"><span>J$</span><input type="number" id="administration" data-field="administration" inputmode="numeric" min="0" step="1000" value="0"></div>
+            <div class="prefix"><span>J$</span><input type="number" id="administration" data-field="administration" inputmode="numeric" min="0" step="1000"></div>
           </div>
         </div>
 
         <div class="field">
           <label for="other">Other operating overhead
             <span class="hint">Anything not caught above</span></label>
-          <div class="prefix"><span>J$</span><input type="number" id="other" data-field="other" inputmode="numeric" min="0" step="1000" value="1600000"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="other" data-field="other" inputmode="numeric" min="0" step="1000"></div>
         </div>
 
         <div class="field">
           <label for="ownerLabour">Allowance for your own professional labour
             <span class="hint">What the practice would have to pay another attorney of your call to do your fee-earning work. Not your drawings.</span></label>
-          <div class="prefix"><span>J$</span><input type="number" id="ownerLabour" data-field="ownerLabour" inputmode="numeric" min="0" step="1000" value="900000"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="ownerLabour" data-field="ownerLabour" inputmode="numeric" min="0" step="1000"></div>
         </div>
       </fieldset>
 
@@ -83,7 +83,7 @@
         <div class="field">
           <label for="billableHours">Billable hours a month, all fee earners
             <span class="hint">Hours recorded against matters, not hours worked</span></label>
-          <input type="number" id="billableHours" data-field="billableHours" inputmode="numeric" min="0" step="1" value="110">
+          <input type="number" id="billableHours" data-field="billableHours" inputmode="numeric" min="0" step="1">
         </div>
         <div class="field">
           <label for="utilisation">Utilisation <span class="range-value" id="utilisationOut">100%</span>
@@ -95,14 +95,14 @@
       <fieldset>
         <legend>What you keep of an hour</legend>
         <div class="field">
-          <label for="realisation">Realisation <span class="range-value" id="realisationOut">85%</span>
+          <label for="realisation">Realisation <span class="range-value" id="realisationOut">100%</span>
             <span class="hint">Share of recorded value that is billed</span></label>
-          <input type="range" id="realisation" data-field="realisation" min="40" max="100" step="1" value="85" data-output="realisationOut" data-output-format="percent">
+          <input type="range" id="realisation" data-field="realisation" min="40" max="100" step="1" value="100" data-output="realisationOut" data-output-format="percent">
         </div>
         <div class="field">
-          <label for="collection">Collection <span class="range-value" id="collectionOut">92%</span>
+          <label for="collection">Collection <span class="range-value" id="collectionOut">100%</span>
             <span class="hint">Share of bills eventually paid</span></label>
-          <input type="range" id="collection" data-field="collection" min="40" max="100" step="1" value="92" data-output="collectionOut" data-output-format="percent">
+          <input type="range" id="collection" data-field="collection" min="40" max="100" step="1" value="100" data-output="collectionOut" data-output-format="percent">
         </div>
         <div class="field">
           <label for="targetSurplus">Target surplus above cost <span class="range-value" id="targetSurplusOut">0%</span></label>
@@ -111,7 +111,7 @@
       </fieldset>
 
       <div class="btn-row no-print">
-        <button type="button" class="btn btn-ghost" id="loadPreset">Use the paper's figures</button>
+        <button type="button" class="btn" id="loadPreset">Show the paper’s example</button>
         <button type="button" class="btn btn-ghost" id="clearAll">Clear</button>
       </div>
     </form>
@@ -150,7 +150,7 @@
 </main>
 
 <script type="module">
-import { chrome, bind, writeFields, figure, workings, fmt, pct, round, isDemo, remember , setupReport } from './assets/ui.js?v=3';
+import { chrome, bind, writeFields, figure, workings, fmt, pct, round, isDemo, remember , setupReport, emptyState, blank } from './assets/ui.js?v=3';
 import { costPerHour, costPerHourSensitivity, PAPER_PRESETS } from './assets/calc.js';
 
 chrome('cost-per-hour.html');
@@ -160,6 +160,14 @@ const results = document.getElementById('results');
 const sensitivity = document.getElementById('sensitivity');
 
 function render(values) {
+  const nothing = blank(values.billableHours) || Number(values.billableHours) <= 0;
+  if (nothing) {
+    document.getElementById('results').innerHTML = emptyState(
+      'Enter what your practice costs and the hours you bill.',
+      'The cost of an hour appears as you type. Nothing is assumed for you, because there is no Jamaican benchmark worth assuming. If you would rather see the tool working first, show the paper’s example.');
+    document.getElementById('sensitivity').innerHTML = '';
+    return;
+  }
   const r = costPerHour(values);
 
   results.innerHTML = `

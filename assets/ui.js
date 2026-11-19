@@ -127,6 +127,21 @@ export function workings(lines) {
   </details>`;
 }
 
+
+/* Shown before anything is entered. A calculator that opens on somebody
+   else's numbers invites the reader to treat them as a benchmark, so the
+   tools start empty and the paper's example is one button away. */
+export function emptyState(lead, hint) {
+  return `<div class="empty-state">
+    <p class="empty-lead">${lead}</p>
+    <p class="empty-hint">${hint}</p>
+  </div>`;
+}
+
+export function blank(value) {
+  return value === '' || value === null || value === undefined || Number.isNaN(value);
+}
+
 /* ---------------------------------------------------------------- charts */
 
 const PALETTE = {

@@ -10,9 +10,13 @@ Each item below is marked:
 
 ---
 
-## 1. The default figures
+## 1. The figures the tools carry
 
-**Model.** Every default figure in every tool is a hypothetical Jamaican-dollar teaching assumption taken from the paper. None is a market rate, a survey result or a benchmark. No Jamaican fee scale exists for conveyancing, probate or anything else.
+**The calculators open empty.** No money figure is filled in for the visitor. A calculator that opens on somebody else's numbers invites the reader to treat them as a benchmark, and the central claim of the paper is that no Jamaican benchmark exists. The paper's example is one button away on each tool, labelled as the paper's, and `?demo=1` loads it directly.
+
+Rate sliders cannot be blank, so they start at neutral positions (realisation and collection at 100%) rather than at the paper's assumptions. The example sets them to the paper's figures along with everything else.
+
+**Model.** The figures below are hypothetical Jamaican-dollar teaching assumptions from the paper, used by the example button and by the worked examples. None is a market rate, a survey result or a benchmark. No Jamaican fee scale exists for conveyancing, probate or anything else.
 
 | Default | Value | Where it comes from |
 | --- | --- | --- |

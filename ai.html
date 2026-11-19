@@ -28,15 +28,15 @@
         <div class="field">
           <label for="tasks">Recurring tasks a month
             <span class="hint">One kind of work you do repeatedly</span></label>
-          <input type="number" id="tasks" data-field="tasks" inputmode="numeric" min="0" step="1" value="20">
+          <input type="number" id="tasks" data-field="tasks" inputmode="numeric" min="0" step="1">
         </div>
         <div class="field">
           <label for="baselineHours">Hours each task takes without AI</label>
-          <input type="number" id="baselineHours" data-field="baselineHours" inputmode="decimal" min="0" step="0.25" value="3">
+          <input type="number" id="baselineHours" data-field="baselineHours" inputmode="decimal" min="0" step="0.25">
         </div>
         <div class="field">
           <label for="draftMinutes">Minutes to get an AI first draft</label>
-          <input type="number" id="draftMinutes" data-field="draftMinutes" inputmode="numeric" min="0" step="5" value="40">
+          <input type="number" id="draftMinutes" data-field="draftMinutes" inputmode="numeric" min="0" step="5">
         </div>
         <div class="field">
           <label for="reviewMinutes">Minutes of your professional review <span class="range-value" id="reviewOut">30</span>
@@ -49,15 +49,15 @@
         <legend>What the tool costs</legend>
         <div class="field">
           <label for="subscription">Subscriptions a month</label>
-          <div class="prefix"><span>J$</span><input type="number" id="subscription" data-field="subscription" inputmode="numeric" min="0" step="1000" value="30000"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="subscription" data-field="subscription" inputmode="numeric" min="0" step="1000"></div>
         </div>
         <div class="field">
           <label for="setup">Set-up, configuration and training, once</label>
-          <div class="prefix"><span>J$</span><input type="number" id="setup" data-field="setup" inputmode="numeric" min="0" step="1000" value="60000"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="setup" data-field="setup" inputmode="numeric" min="0" step="1000"></div>
         </div>
         <div class="field">
           <label for="setupMonths">Spread the set-up over, months</label>
-          <input type="number" id="setupMonths" data-field="setupMonths" inputmode="numeric" min="1" step="1" value="12">
+          <input type="number" id="setupMonths" data-field="setupMonths" inputmode="numeric" min="1" step="1">
         </div>
       </fieldset>
 
@@ -65,22 +65,22 @@
         <legend>What an hour brings in</legend>
         <div class="field">
           <label for="hourlyRate">Hourly rate</label>
-          <div class="prefix"><span>J$</span><input type="number" id="hourlyRate" data-field="hourlyRate" inputmode="numeric" min="0" step="500" value="35000"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="hourlyRate" data-field="hourlyRate" inputmode="numeric" min="0" step="500"></div>
         </div>
         <div class="field-row">
           <div class="field">
-            <label for="realisation">Realisation <span class="range-value" id="realisationOut">85%</span></label>
-            <input type="range" id="realisation" data-field="realisation" min="40" max="100" step="1" value="85" data-output="realisationOut" data-output-format="percent">
+            <label for="realisation">Realisation <span class="range-value" id="realisationOut">100%</span></label>
+            <input type="range" id="realisation" data-field="realisation" min="40" max="100" step="1" value="100" data-output="realisationOut" data-output-format="percent">
           </div>
           <div class="field">
-            <label for="collection">Collection <span class="range-value" id="collectionOut">92%</span></label>
-            <input type="range" id="collection" data-field="collection" min="40" max="100" step="1" value="92" data-output="collectionOut" data-output-format="percent">
+            <label for="collection">Collection <span class="range-value" id="collectionOut">100%</span></label>
+            <input type="range" id="collection" data-field="collection" min="40" max="100" step="1" value="100" data-output="collectionOut" data-output-format="percent">
           </div>
         </div>
         <div class="field">
           <label for="extraCostPerHour">Extra cost of delivering the replacement work, per hour
             <span class="hint">Added staff or supervision. Leave at zero if the work uses capacity you already have.</span></label>
-          <div class="prefix"><span>J$</span><input type="number" id="extraCostPerHour" data-field="extraCostPerHour" inputmode="numeric" min="0" step="500" value="0"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="extraCostPerHour" data-field="extraCostPerHour" inputmode="numeric" min="0" step="500"></div>
         </div>
         <div class="field">
           <label for="redeployment">Share of released hours that becomes paid work <span class="range-value" id="redeploymentOut">50%</span>
@@ -90,7 +90,7 @@
       </fieldset>
 
       <div class="btn-row no-print">
-        <button type="button" class="btn btn-ghost" id="loadPreset">Use the paper's example</button>
+        <button type="button" class="btn" id="loadPreset">Show the paper’s example</button>
       </div>
     </form>
 
@@ -136,13 +136,23 @@
 </main>
 
 <script type="module">
-import { chrome, bind, writeFields, figure, workings, horizontalBars, fmt, pct, round, isDemo, PALETTE , setupReport } from './assets/ui.js?v=3';
+import { chrome, bind, writeFields, figure, workings, horizontalBars, fmt, pct, round, isDemo, PALETTE , setupReport, emptyState, blank } from './assets/ui.js?v=3';
 import { aiEconomics, aiSensitivity, PAPER_PRESETS } from './assets/calc.js';
 
 chrome('ai.html');
 const form = document.getElementById('inputs');
 
 function render(values) {
+  const nothing = blank(values.tasks) || blank(values.baselineHours) || blank(values.hourlyRate);
+  if (nothing) {
+    document.getElementById('summary').innerHTML = emptyState(
+      'Enter one kind of recurring work and what an hour of it earns.',
+      'You will see how many hours a tool releases and what share of them must become paid work before it has earned its keep. Show the paper’s example to see the arithmetic on a drafting task.');
+    document.getElementById('compareChart').innerHTML = '';
+    document.getElementById('sensitivityTable').innerHTML = '';
+    document.getElementById('workings').innerHTML = '';
+    return;
+  }
   const r = aiEconomics(values);
   const share = Math.round((values.redeployment ?? 50));
 

@@ -23,6 +23,7 @@ Built overnight on 19 November 2026 for the keynote that morning. This records w
 | Print and Copy on all four calculators, each printing as a report with a record of the figures entered | Done |
 | The staged fixed-fee clause and its schedule as a Word file and a PDF, linked from Resources | Done |
 | Privacy: no analytics, no tracking, no network calls, no financial data stored | Done |
+| Calculators open empty with a prompt, so the paper's teaching figures are never mistaken for benchmarks | Done |
 | Personal brand: lockup in the footer and hero, mark as the tab icon, lockup at the head of every printed page | Done |
 
 ## Not built, and why

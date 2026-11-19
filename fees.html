@@ -27,21 +27,21 @@
         <legend>The matter</legend>
         <div class="field">
           <label for="expectedHours">Professional hours expected</label>
-          <input type="number" id="expectedHours" data-field="expectedHours" inputmode="numeric" min="0" step="1" value="40">
+          <input type="number" id="expectedHours" data-field="expectedHours" inputmode="numeric" min="0" step="1">
         </div>
         <div class="field">
           <label for="hourlyRate">Your hourly rate</label>
-          <div class="prefix"><span>J$</span><input type="number" id="hourlyRate" data-field="hourlyRate" inputmode="numeric" min="0" step="500" value="35000"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="hourlyRate" data-field="hourlyRate" inputmode="numeric" min="0" step="500"></div>
         </div>
         <div class="field">
           <label for="costPerHour">Cost of an hour to deliver
             <span class="hint" id="costHint">From <a href="cost-per-hour.html">what an hour costs</a></span></label>
-          <div class="prefix"><span>J$</span><input type="number" id="costPerHour" data-field="costPerHour" inputmode="decimal" min="0" step="any" value="22727.27"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="costPerHour" data-field="costPerHour" inputmode="decimal" min="0" step="any"></div>
         </div>
         <div class="field">
           <label for="extraCosts">Other delivery cost for this matter
             <span class="hint">Counsel, searches, anything you carry. Not disbursements the client pays.</span></label>
-          <div class="prefix"><span>J$</span><input type="number" id="extraCosts" data-field="extraCosts" inputmode="numeric" min="0" step="1000" value="0"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="extraCosts" data-field="extraCosts" inputmode="numeric" min="0" step="1000"></div>
         </div>
       </fieldset>
 
@@ -49,15 +49,15 @@
         <legend>The four arrangements</legend>
         <div class="field">
           <label for="cap">Cap on hourly charges</label>
-          <div class="prefix"><span>J$</span><input type="number" id="cap" data-field="cap" inputmode="numeric" min="0" step="10000" value="1400000"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="cap" data-field="cap" inputmode="numeric" min="0" step="10000"></div>
         </div>
         <div class="field">
           <label for="fixedFee">Fixed fee</label>
-          <div class="prefix"><span>J$</span><input type="number" id="fixedFee" data-field="fixedFee" inputmode="numeric" min="0" step="10000" value="1500000"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="fixedFee" data-field="fixedFee" inputmode="numeric" min="0" step="10000"></div>
         </div>
         <div class="field">
           <label for="hybridStageOne">Staged: price of the defined first stage</label>
-          <div class="prefix"><span>J$</span><input type="number" id="hybridStageOne" data-field="hybridStageOne" inputmode="numeric" min="0" step="10000" value="1100000"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="hybridStageOne" data-field="hybridStageOne" inputmode="numeric" min="0" step="10000"></div>
         </div>
         <div class="field">
           <label for="laterStageShare">Share of hours falling in the later stage <span class="range-value" id="laterOut">25%</span>
@@ -79,7 +79,7 @@
       </fieldset>
 
       <div class="btn-row no-print">
-        <button type="button" class="btn btn-ghost" id="loadPreset">Use the paper's example</button>
+        <button type="button" class="btn" id="loadPreset">Show the paper’s example</button>
       </div>
     </form>
 
@@ -134,7 +134,7 @@
 </main>
 
 <script type="module">
-import { chrome, bind, writeFields, figure, workings, groupedBars, fmt, pct, isDemo, recall, PALETTE , setupReport } from './assets/ui.js?v=3';
+import { chrome, bind, writeFields, figure, workings, groupedBars, fmt, pct, isDemo, recall, PALETTE , setupReport, emptyState, blank } from './assets/ui.js?v=3';
 import { feeArchitecture, PAPER_PRESETS } from './assets/calc.js';
 
 chrome('fees.html');
@@ -169,6 +169,18 @@ function table(rows, pick, caption) {
 }
 
 function render(values) {
+  const nothing = blank(values.expectedHours) || blank(values.hourlyRate) || blank(values.costPerHour);
+  if (nothing) {
+    document.getElementById('summary').innerHTML = emptyState(
+      'Enter the hours you expect, your rate and what an hour costs you.',
+      'The four arrangements are then compared on your own matter. Carry the cost of an hour over from the cost per hour tool, or show the paper’s example to see how the comparison reads.');
+    document.getElementById('feeChart').innerHTML = '';
+    document.getElementById('feeTable').innerHTML = '';
+    document.getElementById('contributionChart').innerHTML = '';
+    document.getElementById('contributionTable').innerHTML = '';
+    document.getElementById('workings').innerHTML = '';
+    return;
+  }
   const r = feeArchitecture(values);
   const onEstimate = r.scenarios.find((s) => s.label === 'On estimate') || r.scenarios[0];
   const worst = r.scenarios[r.scenarios.length - 1];

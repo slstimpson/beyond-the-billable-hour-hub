@@ -40,19 +40,19 @@
         <div class="field">
           <label for="openingCash">Office cash you hold today
             <span class="hint">Unrestricted office money only. Never the clients' account.</span></label>
-          <div class="prefix"><span>J$</span><input type="number" id="openingCash" data-field="openingCash" inputmode="numeric" step="10000" value="1000000"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="openingCash" data-field="openingCash" inputmode="numeric" step="10000"></div>
         </div>
         <div class="field">
           <label for="recordedValue">Work recorded each month, at your rates</label>
-          <div class="prefix"><span>J$</span><input type="number" id="recordedValue" data-field="recordedValue" inputmode="numeric" min="0" step="10000" value="3500000"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="recordedValue" data-field="recordedValue" inputmode="numeric" min="0" step="10000"></div>
         </div>
         <div class="field">
           <label for="overhead">Monthly overhead</label>
-          <div class="prefix"><span>J$</span><input type="number" id="overhead" data-field="overhead" inputmode="numeric" min="0" step="10000" value="1600000"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="overhead" data-field="overhead" inputmode="numeric" min="0" step="10000"></div>
         </div>
         <div class="field">
           <label for="drawings">Monthly drawings, payroll for yourself and debt service</label>
-          <div class="prefix"><span>J$</span><input type="number" id="drawings" data-field="drawings" inputmode="numeric" min="0" step="10000" value="900000"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="drawings" data-field="drawings" inputmode="numeric" min="0" step="10000"></div>
         </div>
       </fieldset>
 
@@ -76,14 +76,14 @@
           </select>
         </div>
         <div class="field">
-          <label for="realisation">Realisation <span class="range-value" id="realisationOut">85%</span>
+          <label for="realisation">Realisation <span class="range-value" id="realisationOut">100%</span>
             <span class="hint">Recorded value that becomes a bill</span></label>
-          <input type="range" id="realisation" data-field="realisation" min="40" max="100" step="1" value="85" data-output="realisationOut" data-output-format="percent">
+          <input type="range" id="realisation" data-field="realisation" min="40" max="100" step="1" value="100" data-output="realisationOut" data-output-format="percent">
         </div>
         <div class="field">
-          <label for="collection">Collection <span class="range-value" id="collectionOut">92%</span>
+          <label for="collection">Collection <span class="range-value" id="collectionOut">100%</span>
             <span class="hint">Bills eventually paid</span></label>
-          <input type="range" id="collection" data-field="collection" min="40" max="100" step="1" value="92" data-output="collectionOut" data-output-format="percent">
+          <input type="range" id="collection" data-field="collection" min="40" max="100" step="1" value="100" data-output="collectionOut" data-output-format="percent">
         </div>
       </fieldset>
 
@@ -91,21 +91,21 @@
         <legend>If you grow</legend>
         <div class="field">
           <label for="growthMonth">Growth starts in month</label>
-          <input type="number" id="growthMonth" data-field="growthMonth" inputmode="numeric" min="1" max="12" step="1" value="4">
+          <input type="number" id="growthMonth" data-field="growthMonth" inputmode="numeric" min="1" max="12" step="1">
         </div>
         <div class="field">
           <label for="recordedValueAfterGrowth">Work recorded a month after growth</label>
-          <div class="prefix"><span>J$</span><input type="number" id="recordedValueAfterGrowth" data-field="recordedValueAfterGrowth" inputmode="numeric" min="0" step="10000" value="5400000"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="recordedValueAfterGrowth" data-field="recordedValueAfterGrowth" inputmode="numeric" min="0" step="10000"></div>
         </div>
         <div class="field">
           <label for="overheadAfterGrowth">Monthly overhead after growth
             <span class="hint">The new salary starts at once. The fees arrive later.</span></label>
-          <div class="prefix"><span>J$</span><input type="number" id="overheadAfterGrowth" data-field="overheadAfterGrowth" inputmode="numeric" min="0" step="10000" value="2300000"></div>
+          <div class="prefix"><span>J$</span><input type="number" id="overheadAfterGrowth" data-field="overheadAfterGrowth" inputmode="numeric" min="0" step="10000"></div>
         </div>
       </fieldset>
 
       <div class="btn-row no-print">
-        <button type="button" class="btn btn-ghost" id="loadPreset">Use the paper's example</button>
+        <button type="button" class="btn" id="loadPreset">Show the paper’s example</button>
         <button type="button" class="btn btn-ghost" id="noGrowth">Model no growth</button>
       </div>
     </form>
@@ -153,13 +153,25 @@
 </main>
 
 <script type="module">
-import { chrome, bind, writeFields, figure, workings, lineChart, multiLine, fmt, isDemo, PALETTE , setupReport } from './assets/ui.js?v=3';
+import { chrome, bind, writeFields, figure, workings, lineChart, multiLine, fmt, isDemo, PALETTE , setupReport, emptyState, blank } from './assets/ui.js?v=3';
 import { cashFlow, cashFlowSensitivity, PAPER_PRESETS } from './assets/calc.js';
 
 chrome('cash-flow.html');
 const form = document.getElementById('inputs');
 
 function render(values) {
+  const nothing = blank(values.recordedValue) || blank(values.overhead);
+  if (nothing) {
+    document.getElementById('summary').innerHTML = emptyState(
+      'Enter the work you record each month and what the practice costs to run.',
+      'The office account is then modelled across twelve months on your own billing and collection delays. Show the paper’s example if you would rather see the shape of it first.');
+    document.getElementById('cashChart').innerHTML = '';
+    document.getElementById('delayChart').innerHTML = '';
+    document.getElementById('delaySummary').innerHTML = '';
+    document.getElementById('monthTable').innerHTML = '';
+    document.getElementById('workings').innerHTML = '';
+    return;
+  }
   const input = { ...values, months: 12 };
   const r = cashFlow(input);
   const low = r.lowestCash;

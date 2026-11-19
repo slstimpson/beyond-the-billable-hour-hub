@@ -69,6 +69,8 @@ tests/                        verification against the paper
 
 Calculations are kept entirely separate from the interface. `assets/calc.js` imports nothing and touches nothing outside itself, which is why it can be tested in Node.
 
+The four calculators open with nothing entered and show a prompt instead of a result, so that no visitor mistakes the paper's teaching figures for a market rate. The example is one button away and `?demo=1` still loads it for a demonstration. The scorecard has always worked this way; the calculators now match it.
+
 Every calculator prints as a report: the input panel is replaced by a record of the figures entered, under a heading and a date, with the calculation expanded. `setupReport()` in `assets/ui.js` builds it and keeps it in step with the form, and the same function supplies the plain-text version behind the Copy button.
 
 The Word and PDF versions of the clause are generated, not hand-made. The script that builds them is kept outside this repository; the text is Appendix B of the paper, reproduced verbatim.
