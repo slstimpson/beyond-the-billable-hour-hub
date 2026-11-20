@@ -352,3 +352,7 @@ body.present .hero-brand, body.present .footer-brand { display: none; }
   margin: 0;
   max-width: 52ch;
 }
+
+/* A short list of points inside a source entry on the Resources page. */
+ul.plain-points { margin: .5rem 0 .6rem; padding-left: 1.1rem; }
+ul.plain-points li { padding: .2rem 0; border-bottom: 0; font-size: .9rem; list-style: disc; }
