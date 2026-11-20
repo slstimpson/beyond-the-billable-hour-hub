@@ -137,7 +137,7 @@ test('cash flow reproduces the twelve-month table in Appendix C', () => {
   rows.forEach((row, i) => near(row.cash, expected[i], 1, `cash at month ${i + 1}`));
 });
 
-test('cash flow reproduces the receipt figures of J$2,737,000 and J$4,222,800', () => {
+test('cash flow reproduces the receipt figures of $2,737,000 and $4,222,800', () => {
   const { rows } = cashFlow(PAPER_PRESETS.cashFlow);
   near(rows[0].receipts, 2737000, 1, 'receipts month 1');
   near(rows[5].receipts, 2737000, 1, 'receipts month 6');
@@ -189,7 +189,7 @@ test('cash flow: peak requirement is reported when cash goes negative', () => {
 
 /* ---------------------------------------------------- AI economics, Example 3 */
 
-test('AI economics reproduces J$27,370 collected for each additional hour', () => {
+test('AI economics reproduces $27,370 collected for each additional hour', () => {
   const r = aiEconomics(PAPER_PRESETS.ai);
   near(r.collectedPerHour, 27370, 1, 'collected per hour');
   near(r.techCost, 35000, 0.01, 'monthly technology cost');

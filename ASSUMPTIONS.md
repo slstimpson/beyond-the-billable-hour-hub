@@ -20,21 +20,21 @@ Rate sliders cannot be blank, so they start at neutral positions (realisation an
 
 | Default | Value | Where it comes from |
 | --- | --- | --- |
-| Monthly overhead, before growth | J$1,600,000 | Worked Example 1 |
-| Monthly overhead, after growth | J$2,300,000 | Worked Example 1 |
-| Owner's labour allowance | J$900,000 | Worked Example 1, treated as a market-level wage for her fee-earning work |
+| Monthly overhead, before growth | $1,600,000 | Worked Example 1 |
+| Monthly overhead, after growth | $2,300,000 | Worked Example 1 |
+| Owner's labour allowance | $900,000 | Worked Example 1, treated as a market-level wage for her fee-earning work |
 | Billable hours a month | 110 | 50 principal + 60 associate, Worked Example 1 |
-| Cost per billable hour | J$22,727.27 | (1,600,000 + 900,000) ÷ 110, Appendix C |
-| Hourly rate | J$35,000 | Worked Example 2 |
+| Cost per billable hour | $22,727.27 | (1,600,000 + 900,000) ÷ 110, Appendix C |
+| Hourly rate | $35,000 | Worked Example 2 |
 | Realisation | 85% | Worked Example 1 |
 | Collection | 92% | Worked Example 1 |
-| Recorded value, monthly | J$3,500,000 then J$5,400,000 | Appendix C |
-| Opening office cash | J$1,000,000 | Appendix C |
+| Recorded value, monthly | $3,500,000 then $5,400,000 | Appendix C |
+| Opening office cash | $1,000,000 | Appendix C |
 | Matter: expected hours | 40 | Worked Example 2 |
-| Cap / fixed / first stage | J$1,400,000 / J$1,500,000 / J$1,100,000 | Worked Example 2 |
+| Cap / fixed / first stage | $1,400,000 / $1,500,000 / $1,100,000 | Worked Example 2 |
 | AI: tasks, baseline, draft | 20 a month, 3 hours each, 40 minute draft | Worked Example 3 |
-| AI: subscription and set-up | J$30,000 a month, J$60,000 over 12 months | Worked Example 3 |
-| Collected per additional hour | J$27,370 | 35,000 × 85% × 92%, Appendix C |
+| AI: subscription and set-up | $30,000 a month, $60,000 over 12 months | Worked Example 3 |
+| Collected per additional hour | $27,370 | 35,000 × 85% × 92%, Appendix C |
 
 ## 2. Cost per billable hour
 

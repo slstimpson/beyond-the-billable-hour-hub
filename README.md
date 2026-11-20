@@ -30,7 +30,7 @@ A static website. Eight pages, no build step, no framework, no server, no databa
 
 **The conference paper governs.** Every formula, figure, worked example and legal reference comes from the paper, principally Appendix C. Where this site and the paper disagree, the paper is right and the site has a bug.
 
-`tests/calc.test.mjs` exists to enforce that. It asserts the site's engine against the figures printed in the paper: every fee and contribution in Worked Example 2, the full twelve-month cash table in Appendix C, the receipt figures of J$2,737,000 and J$4,222,800, the lowest cash at 30, 60 and 90 days (J$785,000, J$322,000 and minus J$141,000 in month 7), and the AI table including J$27,370 collected per additional hour and break-even redeployment of 2.95%, 3.49% and 4.80%.
+`tests/calc.test.mjs` exists to enforce that. It asserts the site's engine against the figures printed in the paper: every fee and contribution in Worked Example 2, the full twelve-month cash table in Appendix C, the receipt figures of $2,737,000 and $4,222,800, the lowest cash at 30, 60 and 90 days ($785,000, $322,000 and minus $141,000 in month 7), and the AI table including $27,370 collected per additional hour and break-even redeployment of 2.95%, 3.49% and 4.80%.
 
 Do not change a figure in `assets/calc.js` to make a test pass. If the paper changes, change the test first, then the engine.
 

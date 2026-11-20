@@ -99,8 +99,8 @@ export function costPerHourSensitivity(input, multipliers = [0.7, 0.85, 1, 1.15,
 
 /**
  * Worked Example 2: one matter, four prices.
- * Paper assumptions: 40 hours expected, J$35,000 an hour, allocated cost
- * J$22,727.27 an hour, cap J$1.4m, fixed J$1.5m, hybrid J$1.1m for a defined
+ * Paper assumptions: 40 hours expected, $35,000 an hour, allocated cost
+ * $22,727.27 an hour, cap $1.4m, fixed $1.5m, hybrid $1.1m for a defined
  * first stage plus the hourly rate for later work (one quarter of the hours).
  *
  * Contribution = fee collected - (hours x allocated cost per hour).
@@ -261,7 +261,7 @@ export function cashFlowSensitivity(input, delays = [1, 2, 3]) {
 /**
  * Worked Example 3: the AI saving.
  *   hours released   = tasks x (baseline hours - time with AI)
- *   collected per hour = rate x realisation x collection      (J$27,370 in the paper)
+ *   collected per hour = rate x realisation x collection      ($27,370 in the paper)
  *   monthly tech cost  = subscription + setup / months allocated
  *   break-even redeployment = tech cost / (hours released x collected per hour)
  *
@@ -518,7 +518,7 @@ export function fmt(value) {
   const text = abs >= 1000
     ? Math.round(abs).toLocaleString('en-JM')
     : abs.toLocaleString('en-JM', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
-  return `${negative ? '-J$' : 'J$'}${text}`;
+  return `${negative ? '-$' : '$'}${text}`;
 }
 
 export function pct(value, places = 1) {
