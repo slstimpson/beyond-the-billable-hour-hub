@@ -17,7 +17,7 @@ A static website. Fourteen pages, no build step, no framework, no server, no dat
 | Page | What it does |
 | --- | --- |
 | `index.html` | Landing page and the tools |
-| `check.html` | Three-minute diagnostic: five questions, three priorities, no score |
+| `check.html` | Three-minute diagnostic: six questions, three priorities, no score |
 | `cost-per-hour.html` | Full cost of one billable hour, with sensitivity to hours billed |
 | `fees.html` | One matter priced hourly, capped, fixed and staged, across four outcomes |
 | `cash-flow.html` | Work, record, bill, collect, with billing and collection delays |
@@ -55,7 +55,7 @@ Opening `index.html` directly from the file system will not work, because the pa
 npm test          # or: node --test tests/calc.test.mjs
 ```
 
-48 tests, no dependencies, Node 18 or later. They cover the paper's figures, division by zero, negative and empty inputs, and the rule that the diagnostic produces no score and no verdict on financial health.
+49 tests, no dependencies, Node 18 or later. They cover the paper's figures, division by zero, negative and empty inputs, and the rule that the diagnostic produces no score and no verdict on financial health.
 
 A browser pass lives outside this repository: it loads all fourteen pages at 390px and 1280px, fails on any console error, on any `NaN`, `undefined` or `Infinity` reaching the screen, on sideways scrolling on a phone, and on any paper figure that does not appear.
 

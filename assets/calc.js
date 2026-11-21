@@ -393,7 +393,7 @@ function measure(label, value, kind, definition) {
 /* ------------------------------------------------------- F. diagnostic */
 
 /**
- * Five self-reported answers. This returns management priorities, not a score
+ * Six self-reported answers. This returns management priorities, not a score
  * and not a view on whether a practice is financially healthy.
  */
 export const DIAGNOSTIC_QUESTIONS = [
@@ -474,19 +474,37 @@ export const DIAGNOSTIC_QUESTIONS = [
       link: 'scorecard.html',
       also: [{ label: 'Find your matter contribution margin', link: 'matters.html' }]
     }
+  },
+  {
+    id: 'money',
+    compliance: true,
+    question: 'When a client pays in advance for work not yet done, how is the money treated?',
+    options: [
+      { value: 'trust', label: 'As client money: held in the clients’ trust account, or recorded in my books where the Regulations allow', weight: 0 },
+      { value: 'none', label: 'I do not take advances', weight: 0 },
+      { value: 'unsure', label: 'It varies, and I am not certain of the rule', weight: 1 },
+      { value: 'fees', label: 'As fees received', weight: 2 }
+    ],
+    priority: {
+      title: 'Settle how advances are held',
+      body: 'An advance for work not yet done is client money until the work is done and billed, whatever the letter calls it. This is a legal duty under the Accounts and Records Regulations, so it comes before the management priorities. Check each kind of payment you receive and reconcile the clients’ trust account on time.',
+      link: 'money.html',
+      also: [{ label: 'Read the Regulations', link: 'resources.html' }]
+    }
   }
 ];
 
 export function diagnose(answers) {
   const scored = DIAGNOSTIC_QUESTIONS.map((q) => {
     const chosen = q.options.find((o) => o.value === answers[q.id]);
-    return { id: q.id, weight: chosen ? chosen.weight : 0, answered: Boolean(chosen), priority: q.priority, label: chosen ? chosen.label : null };
+    return { id: q.id, weight: chosen ? chosen.weight : 0, answered: Boolean(chosen), priority: q.priority, label: chosen ? chosen.label : null, compliance: Boolean(q.compliance) };
   });
 
   const answered = scored.filter((s) => s.answered);
   const priorities = scored
     .filter((s) => s.answered && s.weight > 0)
-    .sort((a, b) => b.weight - a.weight)
+    // a flagged legal duty comes first, then the management priorities, worst first
+    .sort((a, b) => (Number(b.compliance) - Number(a.compliance)) || (b.weight - a.weight))
     .slice(0, 3)
     .map((s) => s.priority);
 
@@ -506,7 +524,7 @@ export function diagnose(answers) {
     firstAction: priorities.length
       ? priorities[0]
       : { title: 'Start with the cost of an hour', body: 'It is the figure every other decision rests on.', link: 'cost-per-hour.html' },
-    caveat: 'These are possible management priorities drawn from five self-reported answers. This is not a financial audit and it says nothing about whether your practice is financially healthy.'
+    caveat: 'These are possible management priorities drawn from six self-reported answers. This is not a financial audit and it says nothing about whether your practice is financially healthy.'
   };
 }
 

@@ -121,7 +121,7 @@ Realisation is meaningful for hourly work and should not be applied to fixed fee
 
 ## 7. The diagnostic
 
-**Model.** Five self-reported answers produce up to three management priorities, ordered by the weight of the answer given. There is no score. It does not describe a practice as financially healthy or unhealthy, and it is not a financial audit. A practice answering well at every question is pointed towards depth rather than given an invented fault.
+**Model.** Six self-reported answers produce up to three priorities. An answer suggesting advances are not being treated as client money is placed first, because that is a legal duty. The rest are ordered by the weight of the answer given. There is no score. It does not describe a practice as financially healthy or unhealthy, and it is not a financial audit. A practice answering well at every question is pointed towards depth rather than given an invented fault.
 
 ## 8. Privacy
 

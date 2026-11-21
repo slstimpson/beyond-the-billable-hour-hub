@@ -432,3 +432,16 @@ test('diagnostic routes to the tools added on 20 November', () => {
   assert.equal(fine.priorities[0].link, 'matters.html');
   assert.ok(fine.priorities.some((p) => p.link === 'bonus.html'));
 });
+
+test('diagnostic has six questions and puts a client-money concern first', () => {
+  assert.equal(diagnose({}).totalCount, 6);
+  const r = diagnose({ cost: 'no', pricing: 'percentage', collection: 'no', engagement: 'no', review: 'rarely', money: 'unsure' });
+  assert.equal(r.answeredCount, 6);
+  assert.equal(r.priorities.length, 3);
+  assert.equal(r.priorities[0].link, 'money.html');
+  assert.equal(r.firstAction.link, 'money.html');
+  for (const ok of ['trust', 'none']) {
+    const fine = diagnose({ cost: 'no', money: ok });
+    assert.ok(!fine.priorities.some((p) => p.link === 'money.html'), ok);
+  }
+});

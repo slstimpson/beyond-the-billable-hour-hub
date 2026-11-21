@@ -6,7 +6,7 @@
 <title>The next 30 days | Practice Economics Hub</title>
 <meta name="description" content="Four weeks of specific actions on costing, pricing, billing and monthly review, drawn from the paper's checklist.">
 <meta name="theme-color" content="#0e2033">
-<link rel="stylesheet" href="assets/styles.css?v=6">
+<link rel="stylesheet" href="assets/styles.css?v=7">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
 </head>
@@ -44,7 +44,7 @@
 </main>
 
 <script type="module">
-import { chrome, recall, remember, copyToClipboard } from './assets/ui.js?v=6';
+import { chrome, recall, remember, copyToClipboard } from './assets/ui.js?v=7';
 
 chrome('plan.html');
 
@@ -57,7 +57,7 @@ const WEEKS = [
       { id: 'w1a', tag: 'cost', text: 'Calculate the five starting measures: cost per billable hour, collection rate, debtor days, cash reserve and matter contribution margin.', link: 'scorecard.html' },
       { id: 'w1b', tag: 'cost', text: 'Cost one recurring type of work properly, counting every cost of delivery including a market allowance for your own labour.', link: 'cost-per-hour.html' },
       { id: 'w1c', tag: 'cost', text: 'Cost ten completed matters of that type and compare what each actually collected with what it actually cost.', link: 'matters.html' },
-      { id: 'w1d', compliance: true, text: 'Reconcile the clients’ trust account and classify every advance you hold. A compliance obligation, not a performance measure.', link: 'money.html' }
+      { id: 'w1d', tag: 'money', compliance: true, text: 'Reconcile the clients’ trust account and classify every advance you hold. A compliance obligation, not a performance measure.', link: 'money.html' }
     ]
   },
   {
@@ -96,7 +96,7 @@ const LATER = [
   'Change bonus criteria so that hours recorded no longer outrank quality and collected contribution.'
 ];
 
-const PRIORITY_TAGS = { 'Cost your hour before you price anything': 'cost', 'Test one type of work priced by stage': 'pricing', 'Measure the gap between billing and payment': 'collection', 'Redraft one engagement letter': 'engagement', 'Put five measures on one page each month': 'review' };
+const PRIORITY_TAGS = { 'Cost your hour before you price anything': 'cost', 'Test one type of work priced by stage': 'pricing', 'Measure the gap between billing and payment': 'collection', 'Redraft one engagement letter': 'engagement', 'Put five measures on one page each month': 'review' , 'Settle how advances are held': 'money' };
 const priorities = (recall('priorities', []) || []).map((t) => PRIORITY_TAGS[t]).filter(Boolean);
 const ticks = recall('planTicks', {}) || {};
 

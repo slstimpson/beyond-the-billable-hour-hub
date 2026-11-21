@@ -17,7 +17,7 @@ Built overnight on 19 November 2026 for the keynote that morning. This records w
 | Resources: the paper as PDF, the staged fee clause, the measures defined, Jamaican law and comparative material | Done |
 | Demonstration mode (`?demo=1` on any calculator) | Done |
 | QR assets, decoding verified | Done |
-| Automated tests against the paper's figures | Done, 48 passing |
+| Automated tests against the paper's figures | Done, 49 passing |
 | Browser pass on all pages at 390px and 1280px | Done, no console errors, no overflow |
 | Print layouts for the scorecard, the plan and the diagnostic result | Done |
 | Print and Copy on all four calculators, each printing as a report with a record of the figures entered | Done |
@@ -53,8 +53,8 @@ If a figure looks wrong, the paper governs. Every tool shows its own calculation
 | What does the bonus reward? (`bonus.html`): the section 7 comparison | Done |
 | Your summary (`summary.html`): one page of headline figures from the session | Done |
 | Paper PDF replaced with the 20 November 2026 version | Done |
-| Eleven further engine tests, 48 passing | Done |
-| Three-minute check now routes to the new tools (still five questions) | Done |
+| Twelve further engine tests, 49 passing | Done |
+| Three-minute check routes to the new tools and has a sixth question, on how advances are treated | Done |
 | Browser pass on all fourteen pages at 390px and 1280px | Done, no console errors, no overflow |
 
 Each calculator now keeps its headline results in the tab's session memory so the Summary page can gather them. Nothing is written to durable storage and nothing leaves the browser.
