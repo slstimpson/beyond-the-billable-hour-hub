@@ -422,3 +422,13 @@ test('bonus comparison never credits a negative contribution', () => {
   assert.ok(r.people[0].contribution < 0);
   assert.equal(r.people[0].contributionCredit, 0);
 });
+
+test('diagnostic routes to the tools added on 20 November', () => {
+  const none = diagnose({ cost: 'no', pricing: 'hourly', collection: 'monthly', engagement: 'no', review: 'monthly' });
+  const links = none.priorities.flatMap((p) => [p.link, ...(p.also || []).map((a) => a.link)]);
+  for (const page of ['matters.html', 'stage.html', 'money.html']) assert.ok(links.includes(page), page);
+  const fine = diagnose({ cost: 'yes', pricing: 'fixed', collection: 'monthly', engagement: 'yes', review: 'monthly' });
+  assert.equal(fine.priorities.length, 3);
+  assert.equal(fine.priorities[0].link, 'matters.html');
+  assert.ok(fine.priorities.some((p) => p.link === 'bonus.html'));
+});

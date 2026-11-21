@@ -408,7 +408,8 @@ export const DIAGNOSTIC_QUESTIONS = [
     priority: {
       title: 'Cost your hour before you price anything',
       body: 'A price cannot be tested against a cost you have not calculated. Start with the cost per hour calculator and use your real overhead, including a market allowance for your own fee-earning work.',
-      link: 'cost-per-hour.html'
+      link: 'cost-per-hour.html',
+      also: [{ label: 'Then cost ten past matters', link: 'matters.html' }]
     }
   },
   {
@@ -422,8 +423,9 @@ export const DIAGNOSTIC_QUESTIONS = [
     ],
     priority: {
       title: 'Test one type of work priced by stage',
-      body: 'Choose work that can responsibly be scoped and compare the four arrangements on your own numbers. A cap is still hourly billing underneath.',
-      link: 'fees.html'
+      body: 'Choose work that can responsibly be scoped and compare the four arrangements on your own numbers. A cap is still hourly billing underneath. Then cost and price a single stage.',
+      link: 'fees.html',
+      also: [{ label: 'Price one stage', link: 'stage.html' }]
     }
   },
   {
@@ -450,8 +452,12 @@ export const DIAGNOSTIC_QUESTIONS = [
     ],
     priority: {
       title: 'Redraft one engagement letter',
-      body: 'Stages, assumptions, exclusions, payment before each stage and a priced change process. Appendix B of the paper is a model clause to adapt, not to adopt unread.',
-      link: 'resources.html'
+      body: 'Stages, assumptions, exclusions, payment before each stage and a priced change process. Say how any advance is held and when it will be billed. Appendix B of the paper is a model clause to adapt, not to adopt unread.',
+      link: 'resources.html',
+      also: [
+        { label: 'Build the schedule for one stage', link: 'stage.html' },
+        { label: 'Check where an advance belongs', link: 'money.html' }
+      ]
     }
   },
   {
@@ -465,7 +471,8 @@ export const DIAGNOSTIC_QUESTIONS = [
     priority: {
       title: 'Put five measures on one page each month',
       body: 'Cost per billable hour, collection rate, debtor days, cash reserve and matter contribution margin. Compare them with your own history rather than imported benchmarks.',
-      link: 'scorecard.html'
+      link: 'scorecard.html',
+      also: [{ label: 'Find your matter contribution margin', link: 'matters.html' }]
     }
   }
 ];
@@ -486,8 +493,9 @@ export function diagnose(answers) {
   // Where everything is already in hand, point at depth rather than invent a problem.
   if (priorities.length === 0 && answered.length > 0) {
     priorities.push(
-      { title: 'Compare matters, not averages', body: 'Firm-wide averages hide matters that lose money. Compare the fee collected on a completed stage with its own cost and a fair share of overhead.', link: 'fees.html' },
-      { title: 'Test whether the technology pays', body: 'Released time is capacity. Measure whether it became collected contribution or simply reduced an invoice.', link: 'ai.html' }
+      { title: 'Compare matters, not averages', body: 'Firm-wide averages hide matters that lose money. Set what each completed matter collected against what it cost to deliver.', link: 'matters.html' },
+      { title: 'Test whether the technology pays', body: 'Released time is capacity. Measure whether it became collected contribution or simply reduced an invoice.', link: 'ai.html' },
+      { title: 'Check what your bonus rewards', body: 'A firm cannot move away from hourly billing while judging its lawyers mainly by hours. Compare an hours-based credit with a contribution-based one on the same engagement.', link: 'bonus.html' }
     );
   }
 

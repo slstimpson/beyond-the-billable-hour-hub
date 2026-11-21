@@ -6,7 +6,7 @@
 <title>Three-minute check | Practice Economics Hub</title>
 <meta name="description" content="Five questions on how your practice is run, returning three management priorities and a place to begin.">
 <meta name="theme-color" content="#0e2033">
-<link rel="stylesheet" href="assets/styles.css?v=5">
+<link rel="stylesheet" href="assets/styles.css?v=6">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
 </head>
@@ -34,8 +34,8 @@
 </main>
 
 <script type="module">
-import { chrome, remember, recall, copyToClipboard } from './assets/ui.js?v=5';
-import { DIAGNOSTIC_QUESTIONS, diagnose } from './assets/calc.js';
+import { chrome, remember, recall, copyToClipboard } from './assets/ui.js?v=6';
+import { DIAGNOSTIC_QUESTIONS, diagnose } from './assets/calc.js?v=6';
 
 chrome('check.html');
 
@@ -78,7 +78,7 @@ function update() {
   const plain = [
     'Practice economics: my priorities',
     '',
-    ...r.priorities.flatMap((p, i) => [`${i + 1}. ${p.title}`, `   ${p.body}`, '']),
+    ...r.priorities.flatMap((p, i) => [`${i + 1}. ${p.title}`, `   ${p.body}`, ...(p.also || []).map((a) => `   Also: ${a.label}`), '']),
     `Start with: ${r.firstAction.title}`,
     '',
     r.caveat,
@@ -96,6 +96,7 @@ function update() {
           <h3>${p.title}</h3>
           <p>${p.body}</p>
           <a href="${p.link}">Open the tool &rarr;</a>
+          ${(p.also || []).map((a) => `<br><a href="${a.link}">${a.label} &rarr;</a>`).join('')}
         </div>`).join('')}
 
       <h3>Where to start this week</h3>

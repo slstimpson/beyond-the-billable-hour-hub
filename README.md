@@ -55,7 +55,7 @@ Opening `index.html` directly from the file system will not work, because the pa
 npm test          # or: node --test tests/calc.test.mjs
 ```
 
-47 tests, no dependencies, Node 18 or later. They cover the paper's figures, division by zero, negative and empty inputs, and the rule that the diagnostic produces no score and no verdict on financial health.
+48 tests, no dependencies, Node 18 or later. They cover the paper's figures, division by zero, negative and empty inputs, and the rule that the diagnostic produces no score and no verdict on financial health.
 
 A browser pass lives outside this repository: it loads all fourteen pages at 390px and 1280px, fails on any console error, on any `NaN`, `undefined` or `Infinity` reaching the screen, on sideways scrolling on a phone, and on any paper figure that does not appear.
 
