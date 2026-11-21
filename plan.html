@@ -6,7 +6,7 @@
 <title>The next 30 days | Practice Economics Hub</title>
 <meta name="description" content="Four weeks of specific actions on costing, pricing, billing and monthly review, drawn from the paper's checklist.">
 <meta name="theme-color" content="#0e2033">
-<link rel="stylesheet" href="assets/styles.css?v=4">
+<link rel="stylesheet" href="assets/styles.css?v=5">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
 </head>
@@ -44,7 +44,7 @@
 </main>
 
 <script type="module">
-import { chrome, recall, remember, copyToClipboard } from './assets/ui.js?v=4';
+import { chrome, recall, remember, copyToClipboard } from './assets/ui.js?v=5';
 
 chrome('plan.html');
 
@@ -56,15 +56,15 @@ const WEEKS = [
     items: [
       { id: 'w1a', tag: 'cost', text: 'Calculate the five starting measures: cost per billable hour, collection rate, debtor days, cash reserve and matter contribution margin.', link: 'scorecard.html' },
       { id: 'w1b', tag: 'cost', text: 'Cost one recurring type of work properly, counting every cost of delivery including a market allowance for your own labour.', link: 'cost-per-hour.html' },
-      { id: 'w1c', tag: 'cost', text: 'Cost ten completed matters of that type and compare what each actually collected with what it actually cost.' },
-      { id: 'w1d', compliance: true, text: 'Reconcile the clients’ trust account and classify every advance you hold. A compliance obligation, not a performance measure.' }
+      { id: 'w1c', tag: 'cost', text: 'Cost ten completed matters of that type and compare what each actually collected with what it actually cost.', link: 'matters.html' },
+      { id: 'w1d', compliance: true, text: 'Reconcile the clients’ trust account and classify every advance you hold. A compliance obligation, not a performance measure.', link: 'money.html' }
     ]
   },
   {
     title: 'Week 2: Review your fee arrangements',
     items: [
       { id: 'w2a', tag: 'pricing', text: 'Check the type of work you costed against the guide on where fixed pricing fits and where it does not.' },
-      { id: 'w2b', tag: 'pricing', text: 'Divide one suitable matter type into stages and price each stage from its cost, then test the price against Canon IV(f).', link: 'fees.html' },
+      { id: 'w2b', tag: 'pricing', text: 'Divide one suitable matter type into stages and price each stage from its cost, then test the price against Canon IV(f).', link: 'stage.html' },
       { id: 'w2c', tag: 'engagement', text: 'Redraft one engagement letter: stages, assumptions, exclusions, payment before each stage and a priced process for changes of scope.', link: 'resources.html#clause' },
       { id: 'w2d', tag: 'engagement', text: 'Settle how you will account if an engagement ends mid-stage, and record that an advance for work not yet done remains client money.' }
     ]

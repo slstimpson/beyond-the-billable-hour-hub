@@ -322,3 +322,103 @@ test('round is stable at two places', () => {
   assert.equal(round(22727.2727, 2), 22727.27);
   assert.equal(round(0.005, 2), 0.01);
 });
+
+/* ------------------------------------------------ tools added 20 Nov 2026 */
+
+import {
+  matterReview, stagePrice, classifyPayment, bonusComparison, ADVANCE_THRESHOLD
+} from '../assets/calc.js';
+
+test('matter review reproduces the section 7 contributions: $272,727 at 10 hours, $45,455 at 20', () => {
+  const r = matterReview({ costPerHour: 22727.27, matters: [
+    { label: 'A', fee: 500000, hours: 10 }, { label: 'B', fee: 500000, hours: 20 }] });
+  assert.equal(r.count, 2);
+  near(r.rows[0].contribution, 272727, 1, 'ten hours');
+  near(r.rows[1].contribution, 45455, 1, 'twenty hours');
+  assert.equal(r.belowCostCount, 0);
+  near(r.totalContribution, 318182, 1, 'total');
+});
+
+test('matter review flags a matter collected below its cost and ignores blank rows', () => {
+  const r = matterReview({ costPerHour: 22727.27, matters: [
+    { fee: 400000, hours: 20 }, { fee: '', hours: '' }, { fee: 300000, hours: 0 }] });
+  assert.equal(r.count, 1);
+  assert.equal(r.belowCostCount, 1);
+  near(r.rows[0].contribution, -54545, 1, 'shortfall');
+  assert.ok(r.rows[0].margin < 0);
+});
+
+test('matter review with nothing entered returns nulls, never NaN or Infinity', () => {
+  const r = matterReview({ costPerHour: 0, matters: [] });
+  assert.equal(r.count, 0);
+  assert.equal(r.overallMargin, null);
+  assert.equal(r.breakEvenHours, null);
+});
+
+test('stage price reproduces section 3: 15 hours cost about $341,000 and $400,000 covers about 17.6 hours', () => {
+  const r = stagePrice({ costPerHour: 22727.27, tasks: [{ label: 'First stage', hours: 14 }], allowanceHours: 1, price: 400000 });
+  assert.equal(r.budgetHours, 15);
+  near(r.allocatedCost, 340909, 1, 'allocated cost');
+  near(r.hoursCovered, 17.6, 0.01, 'hours covered');
+  near(r.contribution, 59091, 1, 'contribution');
+});
+
+test('stage price sensitivity: a 20-hour stage costs about $455,000, a shortfall of about $55,000', () => {
+  const r = stagePrice({ costPerHour: 22727.27, tasks: [{ hours: 14 }], allowanceHours: 1, price: 400000 }, [1 / 3]);
+  near(r.sensitivity[0].hours, 20, 0.001, 'hours');
+  near(r.sensitivity[0].cost, 454545, 1, 'cost at 20 hours');
+  near(r.sensitivity[0].contribution, -54545, 1, 'shortfall');
+});
+
+test('stage price uses each task’s own rate where one is given and survives no price', () => {
+  const r = stagePrice({ costPerHour: 20000, tasks: [{ hours: 10, rate: 30000 }, { hours: 10 }] });
+  near(r.allocatedCost, 500000, 0.01, 'mixed rates');
+  near(r.blendedRate, 25000, 0.01, 'blended');
+  assert.equal(r.price, null);
+  assert.equal(r.hoursCovered, null);
+  assert.equal(r.sensitivity[0].contribution, null);
+});
+
+test('payment guide matches the paper’s table in section 5', () => {
+  assert.equal(ADVANCE_THRESHOLD, 80000);
+  assert.match(classifyPayment({ kind: 'general', duty: 'no' }).authority, /4\(3\)\(a\)/);
+  assert.match(classifyPayment({ kind: 'general', duty: 'no' }).trust, /Must not/);
+  assert.match(classifyPayment({ kind: 'billed' }).authority, /4\(3\)\(b\)/);
+  const big = classifyPayment({ kind: 'advance', total: 80001 });
+  assert.match(big.trust, /^Must be paid/);
+  assert.match(big.authority, /2\(1\) and 3\(1\)/);
+  const small = classifyPayment({ kind: 'advance', total: 80000 });
+  assert.match(small.trust, /^Need not/);
+  assert.match(small.authority, /4\(2\)\(d\)/);
+  assert.match(small.whose, /client/);
+  const mixed = classifyPayment({ kind: 'mixed', split: 'no' });
+  assert.match(mixed.trust, /without delay/);
+  assert.match(mixed.authority, /4\(1\)\(b\)/);
+});
+
+test('payment guide asks for what it needs and never treats a working retainer as the attorney’s', () => {
+  assert.equal(classifyPayment({}), null);
+  assert.equal(classifyPayment({ kind: 'advance' }).needs, 'total');
+  assert.equal(classifyPayment({ kind: 'special' }).needs, 'duty');
+  assert.equal(classifyPayment({ kind: 'mixed' }).needs, 'split');
+  assert.match(classifyPayment({ kind: 'special', duty: 'yes' }).whose, /client/);
+});
+
+test('bonus comparison reproduces the section 7 table', () => {
+  const r = bonusComparison({ fee: 500000, costPerHour: 22727.27, creditPerHour: 2000, contributionShare: 0.10,
+    attorneys: [{ label: 'Attorney A', hours: 10 }, { label: 'Attorney B', hours: 20 }] });
+  assert.equal(r.people[0].hoursCredit, 20000);
+  assert.equal(r.people[1].hoursCredit, 40000);
+  near(r.people[0].contributionCredit, 27273, 1, 'A contribution credit');
+  near(r.people[1].contributionCredit, 4545, 1, 'B contribution credit');
+  assert.equal(r.favouredByHours, 'Attorney B');
+  assert.equal(r.favouredByContribution, 'Attorney A');
+  assert.equal(r.schemesDisagree, true);
+});
+
+test('bonus comparison never credits a negative contribution', () => {
+  const r = bonusComparison({ fee: 100000, costPerHour: 22727.27, creditPerHour: 2000, contributionShare: 10,
+    attorneys: [{ hours: 10 }] });
+  assert.ok(r.people[0].contribution < 0);
+  assert.equal(r.people[0].contributionCredit, 0);
+});

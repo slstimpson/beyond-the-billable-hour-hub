@@ -356,3 +356,38 @@ body.present .hero-brand, body.present .footer-brand { display: none; }
 /* A short list of points inside a source entry on the Resources page. */
 ul.plain-points { margin: .5rem 0 .6rem; padding-left: 1.1rem; }
 ul.plain-points li { padding: .2rem 0; border-bottom: 0; font-size: .9rem; list-style: disc; }
+
+/* ---------------------------------------------- tools added 20 Nov 2026 */
+
+/* A grid of entry rows: past matters, the tasks in a stage, attorneys. */
+table.entry { font-size: .86rem; }
+table.entry th, table.entry td { padding: .3rem .3rem; white-space: normal; text-align: left; border-bottom: 0; }
+table.entry input { width: 100%; min-width: 6.2rem; padding: .5rem .55rem; border: 1px solid var(--line); border-radius: 6px; font: inherit; font-size: 1rem; background: #fff; color: var(--ink); }
+table.entry input[type="text"] { min-width: 8.5rem; }
+table.entry input:focus, .field textarea:focus { outline: 3px solid var(--cyan-bright); outline-offset: 1px; }
+table.entry td.n { width: 1.6rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.field textarea { width: 100%; min-height: 4.6rem; padding: .55rem .65rem; border: 1px solid var(--line); border-radius: 6px; font: inherit; font-size: 1rem; color: var(--ink); background: #fff; resize: vertical; }
+.checks { list-style: none; margin: 0 0 .4rem; padding: 0; }
+.checks li { display: flex; gap: .6rem; align-items: flex-start; padding: .35rem 0; font-size: .9rem; }
+.checks input[type="checkbox"] { margin: .2rem 0 0; accent-color: var(--cyan); flex: none; width: 1.05rem; height: 1.05rem; }
+tr.below td { color: var(--negative); }
+.verdict { border: 1px solid var(--line); border-left: 4px solid var(--navy); border-radius: 8px; background: #fff; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+.verdict dt { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-top: .7rem; }
+.verdict dt:first-child { margin-top: 0; }
+.verdict dd { margin: .15rem 0 0; font-family: var(--serif); font-size: 1.12rem; color: var(--ink); }
+.schedule th, .schedule td { text-align: left; white-space: normal; vertical-align: top; }
+.schedule th { width: 32%; font-weight: 600; color: var(--ink); background: #f4f6f9; }
+.summary-tool { margin-bottom: 1.1rem; }
+.summary-tool h3 { margin: 0 0 .4rem; font-size: 1.02rem; }
+.summary-tool table td:last-child { font-family: var(--serif); font-size: 1rem; color: var(--ink); }
+@media print {
+  table.entry { display: none !important; }
+  .schedule th { background: #eef1f5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+.split table.entry input, .split table.entry input[type="text"] { min-width: 0; }
+.split table.entry th:nth-child(2), .split table.entry td:nth-child(2) { width: 5.2rem; }
+.split table.entry th:nth-child(3), .split table.entry td:nth-child(3) { width: 7.4rem; }
+
+/* a fieldset will not shrink below its content unless told to, which pushed the entry tables off a phone screen */
+fieldset { min-width: 0; }

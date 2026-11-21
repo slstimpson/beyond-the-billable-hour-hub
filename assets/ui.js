@@ -4,7 +4,7 @@
  * Every figure a visitor types stays in their own browser.
  */
 
-import { fmt, pct, round, toNumber } from './calc.js?v=4';
+import { fmt, pct, round, toNumber } from './calc.js?v=5';
 export { fmt, pct, round, toNumber };
 
 const PAGES = [
@@ -15,7 +15,12 @@ const PAGES = [
   { href: 'cash-flow.html', label: 'Cash flow' },
   { href: 'ai.html', label: 'AI' },
   { href: 'scorecard.html', label: 'Scorecard' },
+  { href: 'matters.html', label: 'Past matters' },
+  { href: 'stage.html', label: 'Price a stage' },
+  { href: 'money.html', label: 'Client money' },
+  { href: 'bonus.html', label: 'Bonus' },
   { href: 'plan.html', label: '30 days' },
+  { href: 'summary.html', label: 'Summary' },
   { href: 'resources.html', label: 'Resources' }
 ];
 
@@ -352,6 +357,7 @@ export function setupReport(form, title) {
         <thead><tr><th>What was entered</th><th>Value</th></tr></thead>
         <tbody>${inputs.map((i) => `<tr><td>${i.label}</td><td>${i.value}</td></tr>`).join('')}</tbody>
       </table>`;
+    saveReport(title, collectFigures(document.getElementById('results')));
   }
 
   const printBtn = document.querySelector('[data-print]');
@@ -393,9 +399,12 @@ export function setupReport(form, title) {
 /* ------------------------------------------------------- session storage */
 
 /*
- * sessionStorage, not localStorage: the figures disappear when the tab closes.
- * Only the diagnostic answers and the 30-day ticks are kept, so that one tool
- * can hand over to the next. Nothing identifying a client is ever asked for.
+ * sessionStorage, not localStorage: everything here disappears when the tab
+ * closes and none of it is sent anywhere. What is kept for the life of the
+ * tab: the diagnostic answers, the 30-day ticks, the cost of an hour (so the
+ * other tools can offer it) and the headline results of each tool used, so
+ * that the Summary page can gather them. Nothing identifying a client is
+ * ever asked for.
  */
 const KEY = 'bbh-hub';
 
@@ -412,6 +421,16 @@ export function recall(slice, fallback = null) {
     const all = JSON.parse(sessionStorage.getItem(KEY) || '{}');
     return slice in all ? all[slice] : fallback;
   } catch (e) { return fallback; }
+}
+
+/** Keeps a tool's headline results for the Summary page. An empty list removes it. */
+export function saveReport(title, figures, href) {
+  const reports = recall('reports', {}) || {};
+  const page = href || window.location.pathname.split('/').pop() || 'index.html';
+  const clean = (figures || []).filter((f) => f && f.label && f.value && f.value !== '\u2014');
+  if (clean.length === 0) delete reports[page];
+  else reports[page] = { title, figures: clean.map((f) => ({ label: f.label.trim(), value: f.value.trim() })) };
+  remember('reports', reports);
 }
 
 export function forgetAll() {

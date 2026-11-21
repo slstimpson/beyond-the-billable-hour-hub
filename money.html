@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en-JM">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where does this money go? | Practice Economics Hub</title>
+<meta name="description" content="A short guide to whether a payment belongs in the clients’ trust account under the Legal Profession (Accounts and Records) Regulations, 1999.">
+<meta name="theme-color" content="#0e2033">
+<link rel="stylesheet" href="assets/styles.css?v=5">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+</head>
+<body>
+<main id="main">
+<div class="wrap narrow">
+
+  <div class="page-head">
+    <p class="eyebrow">Tool I</p>
+    <h1>Where does this money go?</h1>
+    <p class="lede">A payment arrives. Before it is banked, decide what it is. The word “retainer” on the letter does not settle that. What the money is for does. Answer two questions and see how the paper reads the Legal Profession (Accounts and Records) Regulations, 1999.</p>
+  </div>
+
+  <form id="quiz" class="card" aria-label="About the payment"></form>
+
+  <div id="result" aria-live="polite"></div>
+
+  <div class="card">
+    <h2 style="margin-top:0">Taking money out again</h2>
+    <ul class="clean">
+      <li><strong>Bill, then transfer.</strong> Money may be drawn from trust towards fees supported by a delivered interim or final bill. <span class="pill pill-law">reg 4(5)(i)(c)</span></li>
+      <li><strong>How it leaves.</strong> By a cheque to the attorney or a transfer to the attorney’s own account that is not a clients’ trust account. <span class="pill pill-law">reg 4(6)</span></li>
+      <li><strong>Never overdraw a client.</strong> Nothing may be paid for a client beyond what is held for that client, and the account as a whole must always meet every obligation. <span class="pill pill-law">regs 4(5)(ii), 4(9)</span></li>
+      <li><strong>No contracting out.</strong> An agreement or retainer that excludes the Regulations is void. <span class="pill pill-law">reg 2(3)</span></li>
+      <li><strong>Reconcile and keep.</strong> Reconcile client ledger balances with the bank at least once every five weeks for each calendar month and keep the records for at least nine years. <span class="pill pill-law">regs 5, 7(2)</span></li>
+    </ul>
+  </div>
+
+  <div class="note-box caution">
+    <p><strong>What this is not.</strong> This is the paper’s summary of the Regulations as amended in 2017, 2019 and 2021, arranged as questions. It is not legal advice and it cannot tell you whether a particular receipt or transfer is lawful. Read the Regulations themselves, which are linked from <a href="resources.html">Paper and sources</a>, and take advice or ask the General Legal Council where you are unsure.</p>
+    <p>Failure to comply with the Regulations is professional misconduct under regulation 17. Financial pressure is no defence. An advance for work not yet done is not office cash.</p>
+  </div>
+
+  <div class="btn-row no-print">
+    <button type="button" class="btn" id="printBtn">Print or save as PDF</button>
+    <button type="button" class="btn btn-ghost" id="copyBtn">Copy</button>
+    <button type="button" class="btn btn-ghost" id="resetBtn">Start again</button>
+  </div>
+
+</div>
+</main>
+
+<script type="module">
+import { chrome, copyToClipboard, fmt } from './assets/ui.js?v=5';
+import { PAYMENT_KINDS, classifyPayment, ADVANCE_THRESHOLD } from './assets/calc.js?v=5';
+
+chrome('money.html');
+
+const quiz = document.getElementById('quiz');
+const resultBox = document.getElementById('result');
+const answers = {};
+let plain = '';
+
+const FOLLOW = {
+  duty: { legend: 'Must you account for this money, or do work for it?', options: [
+    { value: 'no', label: 'No. It is paid for availability or for agreeing to act, and nothing more.' },
+    { value: 'yes', label: 'Yes. Work will be done against it or part may have to be returned.' }] },
+  split: { legend: 'Can the payment practicably be split?', options: [
+    { value: 'yes', label: 'Yes. I can bank each part separately.' },
+    { value: 'no', label: 'No. It is one payment that cannot be divided.' }] }
+};
+
+function option(name, o, chosen) {
+  return `<label class="option${chosen ? ' chosen' : ''}">
+    <input type="radio" name="${name}" value="${o.value}"${chosen ? ' checked' : ''}>
+    <span><strong>${o.label}</strong>${o.hint ? `<br><span style="color:var(--muted);font-size:.86rem">${o.hint}</span>` : ''}</span>
+  </label>`;
+}
+
+function draw() {
+  const r = classifyPayment(answers);
+  const needs = r && r.needs;
+  let html = `<fieldset class="question">
+    <legend class="q">1. What is the payment for?</legend>
+    <div class="options">${PAYMENT_KINDS.map((k) => option('kind', k, answers.kind === k.value)).join('')}</div>
+  </fieldset>`;
+
+  const follow = answers.kind === 'general' || answers.kind === 'special' ? 'duty' : (answers.kind === 'mixed' ? 'split' : null);
+  if (follow) {
+    html += `<fieldset class="question">
+      <legend class="q">2. ${FOLLOW[follow].legend}</legend>
+      <div class="options">${FOLLOW[follow].options.map((o) => option(follow, o, answers[follow] === o.value)).join('')}</div>
+    </fieldset>`;
+  }
+  if (answers.kind === 'advance') {
+    html += `<fieldset class="question">
+      <legend class="q">2. How much has this client advanced in total?</legend>
+      <div class="field" style="max-width:20rem">
+        <label for="total">All advances on fees from this client, across every matter you are handling for the client
+          <span class="hint">Include this payment</span></label>
+        <div class="prefix"><span>$</span><input type="number" id="total" inputmode="numeric" min="0" step="1000" value="${answers.total ?? ''}"></div>
+      </div>
+    </fieldset>`;
+  }
+  quiz.innerHTML = html;
+  const totalInput = document.getElementById('total');
+  if (totalInput && document.activeElement !== totalInput && answers._focusTotal) {
+    totalInput.focus(); totalInput.setSelectionRange?.(totalInput.value.length, totalInput.value.length);
+  }
+  show(needs ? null : r);
+}
+
+function show(r) {
+  if (!r) { resultBox.innerHTML = ''; plain = ''; return; }
+  const kind = PAYMENT_KINDS.find((k) => k.value === answers.kind);
+  resultBox.innerHTML = `<dl class="verdict">
+    <dt>Whose money</dt><dd>${r.whose}</dd>
+    <dt>Clients’ trust account</dt><dd>${r.trust}</dd>
+    <dt>Regulation</dt><dd>${r.authority}</dd>
+  </dl>
+  ${r.notes.length ? `<div class="note-box rule">${r.notes.map((n) => `<p>${n}</p>`).join('')}</div>` : ''}`;
+  plain = ['Where does this money go?', '', `Payment: ${kind ? kind.label : ''}`,
+    answers.kind === 'advance' ? `Total advanced by the client: ${fmt(Number(answers.total))}` : '',
+    `Whose money: ${r.whose}`, `Clients' trust account: ${r.trust}`, `Regulation: ${r.authority}`, '',
+    ...r.notes, '',
+    'A summary of the Legal Profession (Accounts and Records) Regulations, 1999, as amended. Not legal advice.',
+    'Practice Economics Hub, companion to "Beyond the Billable Hour", JAMBAR CLE 2026.'].filter((l, i, a) => !(l === '' && a[i - 1] === '')).join('\n');
+}
+
+quiz.addEventListener('change', (e) => {
+  if (e.target.type !== 'radio') return;
+  if (e.target.name === 'kind') { delete answers.duty; delete answers.split; delete answers.total; }
+  answers[e.target.name] = e.target.value;
+  answers._focusTotal = false;
+  draw();
+});
+quiz.addEventListener('input', (e) => {
+  if (e.target.id !== 'total') return;
+  answers.total = e.target.value;
+  show((() => { const r = classifyPayment(answers); return r && r.needs ? null : r; })());
+});
+
+document.getElementById('printBtn').addEventListener('click', () => window.print());
+document.getElementById('copyBtn').addEventListener('click', (e) => { if (plain) copyToClipboard(plain, e.target); });
+document.getElementById('resetBtn').addEventListener('click', () => { Object.keys(answers).forEach((k) => delete answers[k]); draw(); window.scrollTo({ top: 0 }); });
+
+draw();
+</script>
+</body>
+</html>

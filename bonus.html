@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en-JM">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What does the bonus reward? | Practice Economics Hub</title>
+<meta name="description" content="Compare a bonus credited by recorded hours with one credited by matter contribution, on the same engagement.">
+<meta name="theme-color" content="#0e2033">
+<link rel="stylesheet" href="assets/styles.css?v=5">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+</head>
+<body>
+<main id="main">
+<div class="wrap">
+
+  <div class="page-head">
+    <p class="eyebrow">Tool J</p>
+    <h1>What does the bonus reward?</h1>
+    <p class="lede">A firm cannot move away from hourly billing while judging its lawyers mainly by hours. Take one engagement, priced and collected the same way, and see what two bonus schemes pay attorneys who took different lengths of time over it.</p>
+  </div>
+
+  <div class="split">
+
+    <form class="card inputs" id="inputs" aria-label="The engagement">
+      <fieldset>
+        <legend>The engagement</legend>
+        <div class="field">
+          <label for="fee">Fee collected
+            <span class="hint">The same engagement, done to the same standard, by each attorney below</span></label>
+          <div class="prefix"><span>$</span><input type="number" id="fee" data-field="fee" inputmode="numeric" min="0" step="1000"></div>
+        </div>
+        <div class="field">
+          <label for="costPerHour">Cost of one billable hour
+            <span class="hint" id="costHint">From <a href="cost-per-hour.html">what an hour costs</a></span></label>
+          <div class="prefix"><span>$</span><input type="number" id="costPerHour" data-field="costPerHour" inputmode="numeric" min="0" step="100"></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Hours each attorney recorded</legend>
+        <table class="entry" id="people">
+          <thead><tr><th>Attorney</th><th>Hours</th></tr></thead>
+          <tbody><tr><td><input type="text" data-a="label" aria-label="Attorney A" placeholder="Attorney A" maxlength="30"></td><td><input type="number" data-a="hours" aria-label="Attorney A hours" inputmode="decimal" min="0" step="0.5"></td></tr><tr><td><input type="text" data-a="label" aria-label="Attorney B" placeholder="Attorney B" maxlength="30"></td><td><input type="number" data-a="hours" aria-label="Attorney B hours" inputmode="decimal" min="0" step="0.5"></td></tr><tr><td><input type="text" data-a="label" aria-label="Attorney C" placeholder="Attorney C" maxlength="30"></td><td><input type="number" data-a="hours" aria-label="Attorney C hours" inputmode="decimal" min="0" step="0.5"></td></tr></tbody>
+        </table>
+      </fieldset>
+
+      <fieldset>
+        <legend>The two schemes</legend>
+        <div class="field">
+          <label for="creditPerHour">Hours scheme: credit for each recorded hour</label>
+          <div class="prefix"><span>$</span><input type="number" id="creditPerHour" data-field="creditPerHour" inputmode="numeric" min="0" step="100"></div>
+        </div>
+        <div class="field">
+          <label for="contributionShare">Contribution scheme: share of the matter’s contribution <span class="range-value" id="shareOut">10%</span></label>
+          <input type="range" id="contributionShare" data-field="contributionShare" min="1" max="40" step="1" value="10" data-output="shareOut" data-output-format="percent">
+        </div>
+      </fieldset>
+
+      <div class="btn-row no-print">
+        <button type="button" class="btn" id="loadPreset">Show the paper’s example</button>
+        <button type="button" class="btn btn-ghost" id="clearAll">Clear</button>
+      </div>
+    </form>
+
+    <div>
+      <div class="print-only" id="printReport"></div>
+      <div id="results" aria-live="polite"></div>
+      <div class="card" id="detail" hidden>
+        <h2 style="margin-top:0">The same work under each scheme</h2>
+        <div class="table-scroll" id="table"></div>
+        <div id="chart"></div>
+      </div>
+
+      <div class="note-box caution">
+        <p><strong>An illustration of a calculation, not a pay scheme.</strong> Neither scheme is a sufficient measure of quality, fairness or ethical conduct. Any variable award should depend on satisfactory work, proper supervision and compliance with professional obligations. The size of any bonus pool must first be tested against collected income, staff costs, tax, reserves and working capital.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">What the paper suggests assessing</h3>
+        <div class="table-scroll"><table>
+          <thead><tr><th>Contribution assessed</th><th style="text-align:left">Evidence to consider</th></tr></thead>
+          <tbody>
+            <tr><td>Quality, ethics and judgment</td><td style="text-align:left;white-space:normal">Accuracy, professional judgment, ethical compliance and supervision</td></tr>
+            <tr><td>Collected contribution</td><td style="text-align:left;white-space:normal">Collected fees less attributable costs, assessed consistently</td></tr>
+            <tr><td>Client service and delivery</td><td style="text-align:left;white-space:normal">Responsiveness, agreed milestones and client feedback</td></tr>
+            <tr><td>Supervision and development</td><td style="text-align:left;white-space:normal">Coaching, review of junior work and development</td></tr>
+            <tr><td>Collaboration and improvement</td><td style="text-align:left;white-space:normal">Knowledge-sharing and improvement of work processes</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <div class="note-box rule">
+        <p><strong>The Canons set limits.</strong> Canon IV(a) forbids partnership or fee sharing concerning the practice of law with non-qualified persons or bodies. A bonus for staff who are not attorneys, calculated as a share of the fees on particular matters, could be characterised as fee sharing. The safer course is salary and a performance bonus assessed against the person’s own duties. Canon IV(g) forbids a fee or reward for merely introducing a client.</p>
+      </div>
+
+      <div class="btn-row no-print">
+        <button type="button" class="btn" data-print>Print or save as PDF</button>
+        <button type="button" class="btn btn-ghost" data-copy>Copy figures</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</main>
+
+<script type="module">
+import { chrome, bind, figure, fmt, round, isDemo, recall, setupReport, emptyState, groupedBars, PALETTE } from './assets/ui.js?v=5';
+import { bonusComparison } from './assets/calc.js?v=5';
+
+chrome('bonus.html');
+
+const form = document.getElementById('inputs');
+const results = document.getElementById('results');
+const esc = (s) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+const carried = recall('costPerHour');
+if (carried && !isDemo()) {
+  document.getElementById('costPerHour').value = carried;
+  document.getElementById('costHint').innerHTML = 'Carried over from <a href="cost-per-hour.html">what an hour costs</a>';
+}
+
+function people() {
+  return Array.from(document.querySelectorAll('#people tbody tr')).map((tr) => ({
+    label: tr.querySelector('[data-a="label"]').value, hours: tr.querySelector('[data-a="hours"]').value }));
+}
+
+function render(values) {
+  const r = bonusComparison({ ...values, attorneys: people() });
+  if (r.people.length === 0 || !(r.fee > 0)) {
+    results.innerHTML = emptyState(
+      'Enter the fee collected, the cost of an hour and the hours at least one attorney recorded.',
+      'Two attorneys with different hours on the same engagement show the point most clearly.');
+    document.getElementById('detail').hidden = true;
+    return;
+  }
+  results.innerHTML = `<div class="figures">
+    ${figure({ label: 'The hours scheme pays most to', value: esc(r.favouredByHours), note: 'Whoever recorded the most time', headline: true })}
+    ${figure({ label: 'The contribution scheme pays most to', value: esc(r.favouredByContribution), note: 'Whoever left the most after cost' })}
+    ${figure({ label: 'Do the schemes agree?', value: r.people.length < 2 ? '—' : (r.schemesDisagree ? 'No' : 'Yes'), note: r.schemesDisagree ? 'They reward opposite behaviour on the same work' : '' })}
+  </div>`;
+  document.getElementById('detail').hidden = false;
+  document.getElementById('table').innerHTML = `<table>
+    <thead><tr><th>Attorney</th><th>Hours recorded</th><th>Matter contribution</th><th>Hours scheme</th><th>Contribution scheme</th></tr></thead>
+    <tbody>${r.people.map((p) => `<tr><td>${esc(p.label)}</td><td>${round(p.hours, 1)}</td>
+      <td class="${p.contribution < 0 ? 'neg' : ''}">${fmt(p.contribution)}</td><td>${fmt(p.hoursCredit)}</td><td>${fmt(p.contributionCredit)}</td></tr>`).join('')}</tbody>
+    <caption>Matter contribution is the fee collected less hours recorded multiplied by the cost of an hour. A negative contribution earns no credit.</caption>
+  </table>`;
+  document.getElementById('chart').innerHTML = groupedBars(
+    r.people.map((p) => ({ label: p.label, values: { hours: p.hoursCredit, contribution: p.contributionCredit } })),
+    [{ key: 'hours', label: 'Hours scheme', colour: PALETTE.capped }, { key: 'contribution', label: 'Contribution scheme', colour: PALETTE.fixed }]);
+}
+
+const updateReport = setupReport(form, 'What does the bonus reward?');
+bind(form, (values) => { render(values); updateReport(); });
+
+document.getElementById('loadPreset').addEventListener('click', () => {
+  const set = (id, v) => { const el = document.getElementById(id); el.value = v; el.dispatchEvent(new Event('input', { bubbles: true })); };
+  const trs = document.querySelectorAll('#people tbody tr');
+  trs.forEach((tr) => tr.querySelectorAll('input').forEach((el) => { el.value = ''; }));
+  trs[0].querySelector('[data-a="hours"]').value = 10;
+  trs[1].querySelector('[data-a="hours"]').value = 20;
+  set('fee', 500000); set('costPerHour', 22727.27); set('creditPerHour', 2000); set('contributionShare', 10);
+});
+
+document.getElementById('clearAll').addEventListener('click', () => {
+  form.querySelectorAll('input[type="number"], input[type="text"]').forEach((el) => { el.value = ''; });
+  form.dispatchEvent(new Event('change'));
+});
+
+if (isDemo()) document.getElementById('loadPreset').click();
+</script>
+</body>
+</html>

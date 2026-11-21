@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en-JM">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ten past matters | Practice Economics Hub</title>
+<meta name="description" content="Cost up to ten completed matters of one type and compare what each collected with what it cost to deliver.">
+<meta name="theme-color" content="#0e2033">
+<link rel="stylesheet" href="assets/styles.css?v=5">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+</head>
+<body>
+<main id="main">
+<div class="wrap">
+
+  <div class="page-head">
+    <p class="eyebrow">Tool G</p>
+    <h1>Ten past matters</h1>
+    <p class="lede">The first action in the paper’s 30-day plan. Take up to ten completed matters of one recurring type and set what each one actually collected against what it actually cost to deliver. Use the fee received, not the fee recorded or billed.</p>
+  </div>
+
+  <form class="card inputs" id="inputs" aria-label="Your matters">
+    <fieldset>
+      <legend>The cost of an hour</legend>
+      <div class="field" style="max-width:22rem">
+        <label for="costPerHour">Cost of one billable hour
+          <span class="hint" id="costHint">From <a href="cost-per-hour.html">what an hour costs</a>. Overhead plus a market allowance for your own labour, over the hours you bill.</span></label>
+        <div class="prefix"><span>$</span><input type="number" id="costPerHour" data-field="costPerHour" inputmode="numeric" min="0" step="100"></div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Completed matters of one type</legend>
+      <p style="font-size:.86rem;color:var(--muted);margin-top:0">Label each matter in a way only you will recognise. Do not enter client names. Direct costs are costs of the matter that the practice bore and did not recover, such as an outside colleague’s bill.</p>
+      <div class="table-scroll no-print"><table class="entry" id="rows">
+        <thead><tr><th></th><th>Label</th><th>Fee collected ($)</th><th>Hours recorded</th><th>Direct costs ($)</th></tr></thead>
+        <tbody><tr><td class="n">1</td><td><input type="text" data-m="label" aria-label="Matter 1 label" placeholder="Matter 1" maxlength="40"></td><td><input type="number" data-m="fee" aria-label="Matter 1 fee collected" inputmode="numeric" min="0" step="1000"></td><td><input type="number" data-m="hours" aria-label="Matter 1 hours recorded" inputmode="decimal" min="0" step="0.5"></td><td><input type="number" data-m="direct" aria-label="Matter 1 direct costs" inputmode="numeric" min="0" step="1000"></td></tr><tr><td class="n">2</td><td><input type="text" data-m="label" aria-label="Matter 2 label" placeholder="Matter 2" maxlength="40"></td><td><input type="number" data-m="fee" aria-label="Matter 2 fee collected" inputmode="numeric" min="0" step="1000"></td><td><input type="number" data-m="hours" aria-label="Matter 2 hours recorded" inputmode="decimal" min="0" step="0.5"></td><td><input type="number" data-m="direct" aria-label="Matter 2 direct costs" inputmode="numeric" min="0" step="1000"></td></tr><tr><td class="n">3</td><td><input type="text" data-m="label" aria-label="Matter 3 label" placeholder="Matter 3" maxlength="40"></td><td><input type="number" data-m="fee" aria-label="Matter 3 fee collected" inputmode="numeric" min="0" step="1000"></td><td><input type="number" data-m="hours" aria-label="Matter 3 hours recorded" inputmode="decimal" min="0" step="0.5"></td><td><input type="number" data-m="direct" aria-label="Matter 3 direct costs" inputmode="numeric" min="0" step="1000"></td></tr><tr><td class="n">4</td><td><input type="text" data-m="label" aria-label="Matter 4 label" placeholder="Matter 4" maxlength="40"></td><td><input type="number" data-m="fee" aria-label="Matter 4 fee collected" inputmode="numeric" min="0" step="1000"></td><td><input type="number" data-m="hours" aria-label="Matter 4 hours recorded" inputmode="decimal" min="0" step="0.5"></td><td><input type="number" data-m="direct" aria-label="Matter 4 direct costs" inputmode="numeric" min="0" step="1000"></td></tr><tr><td class="n">5</td><td><input type="text" data-m="label" aria-label="Matter 5 label" placeholder="Matter 5" maxlength="40"></td><td><input type="number" data-m="fee" aria-label="Matter 5 fee collected" inputmode="numeric" min="0" step="1000"></td><td><input type="number" data-m="hours" aria-label="Matter 5 hours recorded" inputmode="decimal" min="0" step="0.5"></td><td><input type="number" data-m="direct" aria-label="Matter 5 direct costs" inputmode="numeric" min="0" step="1000"></td></tr><tr><td class="n">6</td><td><input type="text" data-m="label" aria-label="Matter 6 label" placeholder="Matter 6" maxlength="40"></td><td><input type="number" data-m="fee" aria-label="Matter 6 fee collected" inputmode="numeric" min="0" step="1000"></td><td><input type="number" data-m="hours" aria-label="Matter 6 hours recorded" inputmode="decimal" min="0" step="0.5"></td><td><input type="number" data-m="direct" aria-label="Matter 6 direct costs" inputmode="numeric" min="0" step="1000"></td></tr><tr><td class="n">7</td><td><input type="text" data-m="label" aria-label="Matter 7 label" placeholder="Matter 7" maxlength="40"></td><td><input type="number" data-m="fee" aria-label="Matter 7 fee collected" inputmode="numeric" min="0" step="1000"></td><td><input type="number" data-m="hours" aria-label="Matter 7 hours recorded" inputmode="decimal" min="0" step="0.5"></td><td><input type="number" data-m="direct" aria-label="Matter 7 direct costs" inputmode="numeric" min="0" step="1000"></td></tr><tr><td class="n">8</td><td><input type="text" data-m="label" aria-label="Matter 8 label" placeholder="Matter 8" maxlength="40"></td><td><input type="number" data-m="fee" aria-label="Matter 8 fee collected" inputmode="numeric" min="0" step="1000"></td><td><input type="number" data-m="hours" aria-label="Matter 8 hours recorded" inputmode="decimal" min="0" step="0.5"></td><td><input type="number" data-m="direct" aria-label="Matter 8 direct costs" inputmode="numeric" min="0" step="1000"></td></tr><tr><td class="n">9</td><td><input type="text" data-m="label" aria-label="Matter 9 label" placeholder="Matter 9" maxlength="40"></td><td><input type="number" data-m="fee" aria-label="Matter 9 fee collected" inputmode="numeric" min="0" step="1000"></td><td><input type="number" data-m="hours" aria-label="Matter 9 hours recorded" inputmode="decimal" min="0" step="0.5"></td><td><input type="number" data-m="direct" aria-label="Matter 9 direct costs" inputmode="numeric" min="0" step="1000"></td></tr><tr><td class="n">10</td><td><input type="text" data-m="label" aria-label="Matter 10 label" placeholder="Matter 10" maxlength="40"></td><td><input type="number" data-m="fee" aria-label="Matter 10 fee collected" inputmode="numeric" min="0" step="1000"></td><td><input type="number" data-m="hours" aria-label="Matter 10 hours recorded" inputmode="decimal" min="0" step="0.5"></td><td><input type="number" data-m="direct" aria-label="Matter 10 direct costs" inputmode="numeric" min="0" step="1000"></td></tr></tbody>
+      </table></div>
+    </fieldset>
+    <div class="btn-row no-print">
+      <button type="button" class="btn" id="loadPreset">Show the paper’s example</button>
+      <button type="button" class="btn btn-ghost" id="clearAll">Clear</button>
+    </div>
+  </form>
+
+  <div class="print-only" id="printReport"></div>
+  <div id="results" aria-live="polite"></div>
+  <div class="card" id="detail" hidden>
+    <h2 style="margin-top:0">Matter by matter</h2>
+    <div class="table-scroll" id="table"></div>
+    <div id="chart"></div>
+  </div>
+
+  <div class="note-box caution">
+    <p><strong>What this does and does not show.</strong> A matter collected below its cost is a prompt to look at scope, staffing, write-offs and the price. It is not proof that the fee was wrong. A practice may knowingly reduce a fee for access to justice or for a relationship. It should know the cost when it does.</p>
+    <p>Firm-wide averages hide matters that lose money, which is why the paper asks for this matter by matter. No Jamaican benchmark exists for any of these figures. Compare them with your own.</p>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">What to do next</h3>
+    <ul class="clean">
+      <li>If this type of work can be scoped reliably, <a href="stage.html">price one stage of it</a> from its cost.</li>
+      <li>Put the overall margin on your <a href="scorecard.html">monthly scorecard</a> as matter contribution margin.</li>
+      <li>Repeat the exercise for the same type of work in six months and compare.</li>
+    </ul>
+  </div>
+
+  <div class="btn-row no-print">
+    <button type="button" class="btn" data-print>Print or save as PDF</button>
+    <button type="button" class="btn btn-ghost" data-copy>Copy figures</button>
+  </div>
+
+</div>
+</main>
+
+<script type="module">
+import { chrome, figure, fmt, pct, round, isDemo, recall, saveReport, collectFigures, emptyState, horizontalBars, copyToClipboard, toNumber } from './assets/ui.js?v=5';
+import { matterReview } from './assets/calc.js?v=5';
+
+chrome('matters.html');
+
+const form = document.getElementById('inputs');
+const cost = document.getElementById('costPerHour');
+const results = document.getElementById('results');
+const TITLE = 'Ten past matters';
+let current = null;
+
+const carried = recall('costPerHour');
+if (carried && !isDemo()) {
+  cost.value = carried;
+  document.getElementById('costHint').innerHTML = 'Carried over from <a href="cost-per-hour.html">what an hour costs</a>. Change it if you need to.';
+}
+
+function read() {
+  const matters = Array.from(document.querySelectorAll('#rows tbody tr')).map((tr) => {
+    const get = (k) => tr.querySelector(`[data-m="${k}"]`).value;
+    return { label: get('label'), fee: get('fee'), hours: get('hours'), direct: get('direct') };
+  });
+  return { costPerHour: cost.value, matters };
+}
+
+function render() {
+  const input = read();
+  const r = matterReview(input);
+  current = r;
+  const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  document.getElementById('printReport').innerHTML = `<h2 class="report-title">${TITLE}</h2>
+    <p class="report-meta">Practice Economics Hub, ${date}. Figures entered by the user. Cost of one billable hour: ${fmt(toNumber(input.costPerHour, NaN))}. Illustrative estimates only, not legal, accounting or tax advice.</p>`;
+
+  if (r.count === 0 || !(toNumber(input.costPerHour) > 0)) {
+    results.innerHTML = emptyState(
+      'Enter the cost of an hour, then the fee collected and the hours recorded on each matter.',
+      'Results appear as soon as one matter is complete. Two matters are enough to see the pattern. Ten of one type is what the paper recommends.');
+    document.getElementById('detail').hidden = true;
+    saveReport(TITLE, []);
+    return;
+  }
+
+  results.innerHTML = `<div class="figures">
+    ${figure({ label: 'Collected below cost', value: `${r.belowCostCount} of ${r.count}`, note: r.belowCostCount ? 'Matters that brought in less than they cost to deliver' : 'Every matter covered its cost', headline: true })}
+    ${figure({ label: 'Contribution, all matters', value: fmt(r.totalContribution), note: 'Fees collected less the cost of delivery', tone: r.totalContribution < 0 ? 'neg' : 'pos' })}
+    ${figure({ label: 'Matter contribution margin', value: pct(r.overallMargin), note: 'Contribution as a share of fees collected' })}
+    ${figure({ label: 'Collected per hour recorded', value: fmt(r.averageCollectedPerHour), note: `Against a cost of ${fmt(toNumber(input.costPerHour))} an hour` })}
+    ${figure({ label: 'Hours the average fee covers', value: r.breakEvenHours === null ? '—' : String(round(r.breakEvenHours, 1)), note: 'Beyond this, a matter at the average fee is done below cost' })}
+  </div>`;
+
+  document.getElementById('detail').hidden = false;
+  document.getElementById('table').innerHTML = `<table>
+    <thead><tr><th>Matter</th><th>Fee collected</th><th>Hours</th><th>Cost of delivery</th><th>Contribution</th><th>Margin</th></tr></thead>
+    <tbody>${r.rows.map((m) => `<tr class="${m.belowCost ? 'below' : ''}">
+      <td>${escapeHtml(m.label)}</td><td>${fmt(m.fee)}</td><td>${round(m.hours, 1)}</td><td>${fmt(m.cost)}</td><td>${fmt(m.contribution)}</td><td>${pct(m.margin)}</td></tr>`).join('')}
+      <tr class="highlight"><td>All ${r.count}</td><td>${fmt(r.totalFee)}</td><td>${round(r.totalHours, 1)}</td><td>${fmt(r.totalCost)}</td><td>${fmt(r.totalContribution)}</td><td>${pct(r.overallMargin)}</td></tr>
+    </tbody>
+    <caption>Cost of delivery is hours recorded multiplied by the cost of an hour, plus any direct costs. Matters in red were collected below that cost.</caption>
+  </table>`;
+  document.getElementById('chart').innerHTML = horizontalBars(r.rows.map((m) => ({ label: m.label.slice(0, 20), value: m.contribution })));
+  saveReport(TITLE, collectFigures(results));
+}
+
+function escapeHtml(s) { return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+form.addEventListener('input', render);
+
+document.getElementById('loadPreset').addEventListener('click', () => {
+  cost.value = 22727.27;
+  const trs = document.querySelectorAll('#rows tbody tr');
+  trs.forEach((tr) => tr.querySelectorAll('input').forEach((el) => { el.value = ''; }));
+  const set = (i, label, fee, hours) => { const tr = trs[i]; tr.querySelector('[data-m="label"]').value = label; tr.querySelector('[data-m="fee"]').value = fee; tr.querySelector('[data-m="hours"]').value = hours; };
+  set(0, 'Done in 10 hours', 500000, 10);
+  set(1, 'Done in 20 hours', 500000, 20);
+  render();
+});
+
+document.getElementById('clearAll').addEventListener('click', () => {
+  form.querySelectorAll('input').forEach((el) => { el.value = ''; });
+  render();
+});
+
+document.querySelector('[data-print]').addEventListener('click', () => { render(); window.print(); });
+document.querySelector('[data-copy]').addEventListener('click', (e) => {
+  if (!current || current.count === 0) return;
+  const lines = [TITLE, 'Practice Economics Hub', '',
+    ...collectFigures(results).map((f) => `  ${f.label}: ${f.value}`), '',
+    ...current.rows.map((m) => `  ${m.label}: collected ${fmt(m.fee)}, ${round(m.hours, 1)} hours, cost ${fmt(m.cost)}, contribution ${fmt(m.contribution)}`), '',
+    'Illustrative estimates only. Not legal, accounting or tax advice.',
+    'From "Beyond the Billable Hour", Stuart L. Stimpson, JAMBAR CLE 2026.'].join('\n');
+  copyToClipboard(lines, e.target);
+});
+
+if (isDemo()) document.getElementById('loadPreset').click(); else render();
+</script>
+</body>
+</html>

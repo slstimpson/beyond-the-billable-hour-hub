@@ -556,3 +556,224 @@ export const PAPER_PRESETS = {
     redeployment: 0.5, extraCostPerHour: 0
   }
 };
+
+/* ------------------------------------------------ G. review of past matters */
+
+/**
+ * The first action in the paper's 30-day plan (section 11): cost completed
+ * matters of one type and compare that cost with the fee actually collected.
+ *
+ *   cost         = hours recorded x cost per billable hour + direct costs
+ *   contribution = fee collected - cost
+ *   margin       = contribution / fee collected
+ *
+ * The paper's own anchor is section 7: a $500,000 fee collected in full at
+ * $22,727.27 an hour leaves $272,727 after 10 hours and $45,455 after 20.
+ */
+export function matterReview(input) {
+  const costRate = Math.max(0, toNumber(input.costPerHour));
+  const rows = (input.matters || [])
+    .map((m, i) => ({
+      label: String(m.label || '').trim() || `Matter ${i + 1}`,
+      fee: toNumber(m.fee, NaN),
+      hours: toNumber(m.hours, NaN),
+      direct: Math.max(0, toNumber(m.direct))
+    }))
+    .filter((m) => Number.isFinite(m.fee) && Number.isFinite(m.hours) && m.fee >= 0 && m.hours > 0)
+    .map((m) => {
+      const cost = m.hours * costRate + m.direct;
+      const contribution = m.fee - cost;
+      return {
+        ...m,
+        cost,
+        contribution,
+        margin: safeDivide(contribution, m.fee),
+        collectedPerHour: safeDivide(m.fee, m.hours),
+        belowCost: contribution < 0
+      };
+    });
+
+  const sum = (key) => rows.reduce((t, r) => t + r[key], 0);
+  const totalFee = sum('fee'), totalCost = sum('cost'), totalHours = sum('hours');
+  return {
+    rows,
+    count: rows.length,
+    belowCostCount: rows.filter((r) => r.belowCost).length,
+    totalFee,
+    totalCost,
+    totalHours,
+    totalContribution: totalFee - totalCost,
+    overallMargin: safeDivide(totalFee - totalCost, totalFee),
+    averageCollectedPerHour: safeDivide(totalFee, totalHours),
+    // hours at which the average fee of these matters stops covering its cost
+    breakEvenHours: rows.length ? safeDivide(totalFee / rows.length, costRate) : null
+  };
+}
+
+/* --------------------------------------------------- H. pricing one stage */
+
+/**
+ * Section 3, steps 1, 2 and 5, and the sensitivity that follows the seven steps.
+ * The paper's figures: 14 hours budgeted plus 1 for uncertainty at $22,727.27
+ * is an allocated cost of about $341,000. A price of $400,000 covers about
+ * 17.6 hours. A 20-hour stage would cost about $455,000, a shortfall of about
+ * $55,000.
+ *
+ * Each task may carry its own cost per hour. Where it does not, the practice
+ * average is used, as the paper does for its hypothetical principal.
+ */
+export function stagePrice(input, overruns = [0, 0.25, 0.5]) {
+  const defaultRate = Math.max(0, toNumber(input.costPerHour));
+  const tasks = (input.tasks || [])
+    .map((t) => ({
+      label: String(t.label || '').trim(),
+      hours: Math.max(0, toNumber(t.hours)),
+      rate: toNumber(t.rate, NaN) > 0 ? toNumber(t.rate) : defaultRate
+    }))
+    .filter((t) => t.hours > 0)
+    .map((t) => ({ ...t, cost: t.hours * t.rate }));
+
+  const taskHours = tasks.reduce((s, t) => s + t.hours, 0);
+  const taskCost = tasks.reduce((s, t) => s + t.cost, 0);
+  const blendedRate = safeDivide(taskCost, taskHours) ?? defaultRate;
+
+  const allowanceHours = Math.max(0, toNumber(input.allowanceHours));
+  const directCosts = Math.max(0, toNumber(input.directCosts));
+  const budgetHours = taskHours + allowanceHours;
+  const allocatedCost = taskCost + allowanceHours * blendedRate + directCosts;
+
+  const price = toNumber(input.price, NaN);
+  const hasPrice = Number.isFinite(price) && price > 0;
+  const contribution = hasPrice ? price - allocatedCost : null;
+
+  return {
+    tasks,
+    taskHours,
+    allowanceHours,
+    budgetHours,
+    blendedRate,
+    directCosts,
+    allocatedCost,
+    price: hasPrice ? price : null,
+    contribution,
+    margin: hasPrice ? safeDivide(contribution, price) : null,
+    hoursCovered: hasPrice ? safeDivide(price - directCosts, blendedRate) : null,
+    sensitivity: overruns.map((o) => {
+      const hours = budgetHours * (1 + o);
+      const cost = hours * blendedRate + directCosts;
+      return { overrun: o, hours, cost, contribution: hasPrice ? price - cost : null };
+    })
+  };
+}
+
+/* ------------------------------------------- I. where a payment belongs */
+
+/**
+ * Section 5 of the paper, the table headed "Where each kind of money goes",
+ * which summarises the Legal Profession (Accounts and Records) Regulations,
+ * 1999, as amended in 2017, 2019 and 2021. This returns the paper's summary
+ * for the kind of payment described. It cannot decide whether a particular
+ * receipt or transfer is lawful.
+ */
+export const ADVANCE_THRESHOLD = 80000;
+
+export const PAYMENT_KINDS = [
+  { value: 'general', label: 'A general retainer', hint: 'Paid for you to act for a period in matters not yet identified. It buys availability.' },
+  { value: 'special', label: 'A special retainer', hint: 'Paid for you to act in an identified matter if engaged. Not an advance for work to be done.' },
+  { value: 'billed', label: 'Fees already billed, or for work done and billed at once', hint: 'A bill has been delivered, or is delivered straight after the work.' },
+  { value: 'reimbursement', label: 'Repayment of a disbursement you have already paid', hint: 'Money you spent on the client’s behalf, now repaid.' },
+  { value: 'advance', label: 'An advance on fees or disbursements', hint: 'Paid on account for services not yet rendered or disbursements not yet made.' },
+  { value: 'clientMoney', label: 'Money held for a client or a transaction', hint: 'Purchase money, a settlement sum, a deposit held as stakeholder and the like.' },
+  { value: 'mixed', label: 'One payment that is part yours and part the client’s', hint: 'For example a single cheque covering a delivered bill and an advance.' }
+];
+
+export function classifyPayment(a) {
+  const kind = a.kind;
+  if (!kind) return null;
+  const out = (whose, trust, authority, notes = []) => ({ whose, trust, authority, notes });
+
+  if (kind === 'general' || kind === 'special') {
+    if (a.duty === undefined || a.duty === '') return { needs: 'duty' };
+    if (a.duty === 'yes') {
+      return out(
+        'The client’s until properly earned and billed',
+        'Treat it as an advance on fees',
+        'regs 2(1), 3(1) and 4(3)(a)',
+        ['A retainer belongs to the attorney only where there is no duty to account for it or to render services for it. The definition of a special retainer excludes any amount paid as an advance of fees for work to be done. If you must do work for this money, answer the questions again as an advance.']
+      );
+    }
+    return out('The attorney’s', 'Must not be paid into the clients’ trust account', 'reg 4(3)(a)',
+      ['The label on the engagement letter does not decide this. What the money is for decides it.']);
+  }
+  if (kind === 'billed') {
+    return out('The attorney’s', 'Must not be paid into the clients’ trust account', 'reg 4(3)(b)(i)',
+      ['The proviso to reg 4(3) allows a payment in settlement of a bill to pass through the trust account if it is withdrawn within the short period the proviso sets.']);
+  }
+  if (kind === 'reimbursement') {
+    return out('The attorney’s', 'Must not be paid into the clients’ trust account', 'reg 4(3)(b)(ii)', []);
+  }
+  if (kind === 'advance') {
+    if (a.total === undefined || a.total === '') return { needs: 'total' };
+    const total = toNumber(a.total, NaN);
+    if (!Number.isFinite(total) || total <= 0) return { needs: 'total' };
+    const base = ['An advance is not earned because it has been received. Do the work, deliver a bill, then transfer.'];
+    if (total > ADVANCE_THRESHOLD) {
+      return out('The client’s until properly earned and billed', 'Must be paid into the clients’ trust account', 'regs 2(1) and 3(1)', base);
+    }
+    return out('The client’s until properly earned and billed',
+      'Need not be paid into the clients’ trust account, but must be shown in your books', 'reg 4(2)(d)',
+      [`The exception covers advances that total $${ADVANCE_THRESHOLD.toLocaleString('en-JM')} or less from that client across all matters you are handling for the client. It relaxes the duty to deposit. It does not turn the money into fees earned.`, ...base]);
+  }
+  if (kind === 'clientMoney') {
+    return out('The client’s, or held to the client’s or another’s order', 'Must be paid into the clients’ trust account', 'regs 2(1) and 3(1)',
+      ['Reg 4(2) lists limited cases where money need not be paid in, such as where the client asks in writing for it to be held elsewhere. The handling must still appear in your books.']);
+  }
+  if (kind === 'mixed') {
+    if (a.split === undefined || a.split === '') return { needs: 'split' };
+    if (a.split === 'yes') {
+      return out('Part the attorney’s, part the client’s', 'Split it and deal with each part as if it had been received separately', 'proviso (i)(a) to reg 4(3)',
+        ['Run each part through these questions on its own.']);
+    }
+    return out('Part the attorney’s, part the client’s', 'Must be paid into the clients’ trust account. Draw out your own part without delay', 'reg 4(1)(b) and the proviso to reg 4(3)', []);
+  }
+  return null;
+}
+
+/* ------------------------------------------ J. what the bonus rewards */
+
+/**
+ * Section 7: the same properly priced engagement, completed to the same
+ * standard and collected in full, by attorneys who record different hours.
+ * The paper's figures: a $500,000 fee, 10 and 20 hours, a $2,000 credit per
+ * recorded hour against 10% of the matter's contribution.
+ *   contribution   = fee collected - hours x cost per billable hour
+ *   hours credit   = hours x credit per hour
+ *   contribution credit = contribution x share (never below zero)
+ */
+export function bonusComparison(input) {
+  const fee = Math.max(0, toNumber(input.fee));
+  const costRate = Math.max(0, toNumber(input.costPerHour));
+  const perHour = Math.max(0, toNumber(input.creditPerHour));
+  const share = clampRate(input.contributionShare, 0);
+  const people = (input.attorneys || [])
+    .map((p, i) => ({ label: String(p.label || '').trim() || `Attorney ${String.fromCharCode(65 + i)}`, hours: toNumber(p.hours, NaN) }))
+    .filter((p) => Number.isFinite(p.hours) && p.hours > 0)
+    .map((p) => {
+      const contribution = fee - p.hours * costRate;
+      return {
+        ...p,
+        contribution,
+        hoursCredit: p.hours * perHour,
+        contributionCredit: Math.max(0, contribution) * share
+      };
+    });
+  const byHours = [...people].sort((x, y) => y.hoursCredit - x.hoursCredit)[0] || null;
+  const byContribution = [...people].sort((x, y) => y.contributionCredit - x.contributionCredit)[0] || null;
+  return {
+    people,
+    fee,
+    favouredByHours: byHours ? byHours.label : null,
+    favouredByContribution: byContribution ? byContribution.label : null,
+    schemesDisagree: Boolean(byHours && byContribution && people.length > 1 && byHours.label !== byContribution.label)
+  };
+}

@@ -12,17 +12,22 @@ Live site: <https://slstimpson.github.io/beyond-the-billable-hour-hub/>
 
 ## What it is
 
-A static website. Eight pages, no build step, no framework, no server, no database and no account. Every calculation runs in the visitor's own browser. Nothing a visitor types is transmitted, stored remotely or sent to any AI service.
+A static website. Fourteen pages, no build step, no framework, no server, no database and no account. Every calculation runs in the visitor's own browser. Nothing a visitor types is transmitted, stored remotely or sent to any AI service. Figures are held only in the browser tab's session memory, so that one tool can hand over to the next and the Summary page can gather them. Closing the tab clears them.
 
 | Page | What it does |
 | --- | --- |
-| `index.html` | Landing page and the six tools |
+| `index.html` | Landing page and the tools |
 | `check.html` | Three-minute diagnostic: five questions, three priorities, no score |
 | `cost-per-hour.html` | Full cost of one billable hour, with sensitivity to hours billed |
 | `fees.html` | One matter priced hourly, capped, fixed and staged, across four outcomes |
 | `cash-flow.html` | Work, record, bill, collect, with billing and collection delays |
 | `ai.html` | Hours released by an AI tool against its cost, and break-even redeployment |
 | `scorecard.html` | Five starting measures and four further ones, each defined |
+| `matters.html` | Up to ten completed matters: fee collected against cost of delivery, matter by matter |
+| `stage.html` | The seven steps for one stage: cost, risk allowance, price, overrun sensitivity and a printable schedule |
+| `money.html` | Two questions on a payment and the paper's summary of how the Accounts and Records Regulations treat it |
+| `bonus.html` | One engagement under an hours-based bonus and a contribution-based bonus |
+| `summary.html` | The headline figures from every tool used in the session, on one page |
 | `plan.html` | The paper's checklist as four weeks, tickable and printable |
 | `resources.html` | The paper, the staged fee clause in Word and PDF, the measures and the legal sources |
 
@@ -50,9 +55,9 @@ Opening `index.html` directly from the file system will not work, because the pa
 npm test          # or: node --test tests/calc.test.mjs
 ```
 
-37 tests, no dependencies, Node 18 or later. They cover the paper's figures, division by zero, negative and empty inputs, and the rule that the diagnostic produces no score and no verdict on financial health.
+47 tests, no dependencies, Node 18 or later. They cover the paper's figures, division by zero, negative and empty inputs, and the rule that the diagnostic produces no score and no verdict on financial health.
 
-A browser pass lives outside this repository: it loads all eight pages at 390px and 1280px, fails on any console error, on any `NaN`, `undefined` or `Infinity` reaching the screen, on sideways scrolling on a phone, and on any paper figure that does not appear.
+A browser pass lives outside this repository: it loads all fourteen pages at 390px and 1280px, fails on any console error, on any `NaN`, `undefined` or `Infinity` reaching the screen, on sideways scrolling on a phone, and on any paper figure that does not appear.
 
 ## Structure
 

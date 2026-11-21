@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en-JM">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your summary | Practice Economics Hub</title>
+<meta name="description" content="One page gathering the figures from every tool you have used in this session.">
+<meta name="theme-color" content="#0e2033">
+<link rel="stylesheet" href="assets/styles.css?v=5">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+</head>
+<body>
+<main id="main">
+<div class="wrap narrow">
+
+  <div class="page-head">
+    <p class="eyebrow">Tool K</p>
+    <h1>Your summary</h1>
+    <p class="lede">The headline figures from every tool you have used since you opened the Hub in this tab, on one page. Print it or copy it before you close the tab, because nothing is kept afterwards.</p>
+  </div>
+
+  <div class="print-only" id="printReport"></div>
+  <div id="body" aria-live="polite"></div>
+
+  <div class="note-box caution">
+    <p style="margin-bottom:0"><strong>What this is.</strong> Illustrative estimates from figures you entered. Not legal, accounting or tax advice, not a financial audit and not a verdict on whether your practice is sound. No Jamaican benchmarks are offered. Compare these figures with your own history.</p>
+  </div>
+
+  <div class="btn-row no-print">
+    <button type="button" class="btn" id="printBtn">Print or save as PDF</button>
+    <button type="button" class="btn btn-ghost" id="copyBtn">Copy</button>
+    <button type="button" class="btn btn-ghost" id="clearBtn">Clear my figures</button>
+  </div>
+
+</div>
+</main>
+
+<script type="module">
+import { chrome, recall, forgetAll, copyToClipboard, emptyState } from './assets/ui.js?v=5';
+
+chrome('summary.html');
+
+const ORDER = ['cost-per-hour.html', 'matters.html', 'stage.html', 'fees.html', 'cash-flow.html', 'ai.html', 'bonus.html', 'scorecard.html'];
+const body = document.getElementById('body');
+let plain = '';
+
+function draw() {
+  const reports = recall('reports', {}) || {};
+  const priorities = recall('priorities', []) || [];
+  const pages = ORDER.filter((p) => reports[p]).concat(Object.keys(reports).filter((p) => !ORDER.includes(p)));
+  const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  document.getElementById('printReport').innerHTML = `<h2 class="report-title">Practice economics summary</h2>
+    <p class="report-meta">Practice Economics Hub, ${date}. Figures entered by the user.</p>`;
+
+  if (pages.length === 0 && priorities.length === 0) {
+    body.innerHTML = emptyState('Nothing to summarise yet.',
+      'Use any of the tools and come back. Start with <a href="cost-per-hour.html">what an hour costs</a>, since the other tools build on it.');
+    plain = '';
+    return;
+  }
+
+  let html = '';
+  const lines = ['Practice economics summary', `Practice Economics Hub, ${date}`, ''];
+  if (priorities.length) {
+    html += `<div class="card summary-tool"><h3>Priorities from the three-minute check</h3><ul class="clean">${priorities.map((p) => `<li>${p}</li>`).join('')}</ul></div>`;
+    lines.push('Priorities from the three-minute check', ...priorities.map((p) => `  ${p}`), '');
+  }
+  pages.forEach((p) => {
+    const r = reports[p];
+    html += `<div class="card summary-tool">
+      <h3>${r.title} <a class="no-print" href="${p}" style="font-size:.82rem;font-weight:400">Open</a></h3>
+      <div class="table-scroll"><table><tbody>${r.figures.map((f) => `<tr><td style="white-space:normal">${f.label}</td><td>${f.value}</td></tr>`).join('')}</tbody></table></div>
+    </div>`;
+    lines.push(r.title, ...r.figures.map((f) => `  ${f.label}: ${f.value}`), '');
+  });
+  lines.push('Illustrative estimates only. Not legal, accounting or tax advice.',
+    'From "Beyond the Billable Hour", Stuart L. Stimpson, JAMBAR CLE 2026.');
+  body.innerHTML = html;
+  plain = lines.join('\n');
+}
+
+document.getElementById('printBtn').addEventListener('click', () => window.print());
+document.getElementById('copyBtn').addEventListener('click', (e) => { if (plain) copyToClipboard(plain, e.target); });
+document.getElementById('clearBtn').addEventListener('click', () => { forgetAll(); draw(); });
+
+draw();
+</script>
+</body>
+</html>

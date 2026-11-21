@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en-JM">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Price one stage | Practice Economics Hub</title>
+<meta name="description" content="Work through the seven steps for one stage of a matter: cost it, allow for risk, set a price and print the schedule.">
+<meta name="theme-color" content="#0e2033">
+<link rel="stylesheet" href="assets/styles.css?v=5">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+</head>
+<body>
+<main id="main">
+<div class="wrap">
+
+  <div class="page-head">
+    <p class="eyebrow">Tool H</p>
+    <h1>Price one stage</h1>
+    <p class="lede">The paper’s seven steps for pricing a matter, applied to one stage at a time. Cost the stage, allow for what you can foresee, set a price you can defend and print the schedule that goes with the staged fee clause.</p>
+  </div>
+
+  <div class="split">
+
+    <form class="card inputs" id="inputs" aria-label="The stage">
+      <fieldset>
+        <legend>1. The cost of an hour</legend>
+        <div class="field">
+          <label for="costPerHour">Average cost of one billable hour
+            <span class="hint" id="costHint">From <a href="cost-per-hour.html">what an hour costs</a></span></label>
+          <div class="prefix"><span>$</span><input type="number" id="costPerHour" data-field="costPerHour" inputmode="numeric" min="0" step="100"></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>2. Cost the stage</legend>
+        <div class="field">
+          <label for="stageName">Name of the stage
+            <span class="hint">For example: Protect and assess. No client names.</span></label>
+          <input type="text" id="stageName" data-field="stageName" maxlength="60">
+        </div>
+        <p style="font-size:.84rem;color:var(--muted);margin:.2rem 0 .4rem">List the tasks, including supervision and checking. Give a task its own cost per hour where you know what the person doing it costs. Otherwise the average is used.</p>
+        <table class="entry" id="tasks">
+          <thead><tr><th>Task</th><th>Hours</th><th>Cost per hour ($)</th></tr></thead>
+          <tbody><tr><td><input type="text" data-t="label" aria-label="Task 1" placeholder="Review of the claim and records" maxlength="60"></td><td><input type="number" data-t="hours" aria-label="Task 1 hours" inputmode="decimal" min="0" step="0.5"></td><td><input type="number" data-t="rate" aria-label="Task 1 cost per hour" inputmode="numeric" min="0" step="100" placeholder="average"></td></tr><tr><td><input type="text" data-t="label" aria-label="Task 2" placeholder="Written assessment" maxlength="60"></td><td><input type="number" data-t="hours" aria-label="Task 2 hours" inputmode="decimal" min="0" step="0.5"></td><td><input type="number" data-t="rate" aria-label="Task 2 cost per hour" inputmode="numeric" min="0" step="100" placeholder="average"></td></tr><tr><td><input type="text" data-t="label" aria-label="Task 3" placeholder="Meeting with the client" maxlength="60"></td><td><input type="number" data-t="hours" aria-label="Task 3 hours" inputmode="decimal" min="0" step="0.5"></td><td><input type="number" data-t="rate" aria-label="Task 3 cost per hour" inputmode="numeric" min="0" step="100" placeholder="average"></td></tr><tr><td><input type="text" data-t="label" aria-label="Task 4" placeholder="Supervision and checking" maxlength="60"></td><td><input type="number" data-t="hours" aria-label="Task 4 hours" inputmode="decimal" min="0" step="0.5"></td><td><input type="number" data-t="rate" aria-label="Task 4 cost per hour" inputmode="numeric" min="0" step="100" placeholder="average"></td></tr><tr><td><input type="text" data-t="label" aria-label="Task 5" placeholder="" maxlength="60"></td><td><input type="number" data-t="hours" aria-label="Task 5 hours" inputmode="decimal" min="0" step="0.5"></td><td><input type="number" data-t="rate" aria-label="Task 5 cost per hour" inputmode="numeric" min="0" step="100" placeholder="average"></td></tr></tbody>
+        </table>
+        <div class="field-row" style="margin-top:.7rem">
+          <div class="field">
+            <label for="allowanceHours">Hours allowed for uncertainty</label>
+            <input type="number" id="allowanceHours" data-field="allowanceHours" inputmode="decimal" min="0" step="0.5">
+          </div>
+          <div class="field">
+            <label for="directCosts">Direct costs you will bear</label>
+            <div class="prefix"><span>$</span><input type="number" id="directCosts" data-field="directCosts" inputmode="numeric" min="0" step="1000"></div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>3. Risks and the cost of waiting</legend>
+        <ul class="checks" id="risks">
+          <li><input type="checkbox" id="r1" value="Urgency"><label for="r1">The work is urgent</label></li>
+          <li><input type="checkbox" id="r2" value="Novelty"><label for="r2">The point is novel or the facts are unclear</label></li>
+          <li><input type="checkbox" id="r3" value="Changing instructions"><label for="r3">Instructions are likely to change</label></li>
+          <li><input type="checkbox" id="r4" value="Contested applications"><label for="r4">Contested applications are likely</label></li>
+          <li><input type="checkbox" id="r5" value="Slow payment"><label for="r5">Payment may be slow</label></li>
+        </ul>
+        <p style="font-size:.8rem;color:var(--muted);margin:0">Each needs judgment about the particular matter. No standard uplift will do. Reflect what you tick in the hours allowed, the assumptions or the price.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>5. The price</legend>
+        <div class="field">
+          <label for="price">Proposed price for this stage
+            <span class="hint">Excluding GCT and disbursements</span></label>
+          <div class="prefix"><span>$</span><input type="number" id="price" data-field="price" inputmode="numeric" min="0" step="1000"></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>6. The terms</legend>
+        <div class="field">
+          <label for="scope">What the client receives</label>
+          <textarea id="scope" data-field="scope" maxlength="600"></textarea>
+        </div>
+        <div class="field">
+          <label for="assumptions">What the fee assumes</label>
+          <textarea id="assumptions" data-field="assumptions" maxlength="600"></textarea>
+        </div>
+        <div class="field">
+          <label for="exclusions">What is not included</label>
+          <textarea id="exclusions" data-field="exclusions" maxlength="600"></textarea>
+        </div>
+        <div class="field" style="max-width:14rem">
+          <label for="validity">Price open for acceptance (days)</label>
+          <input type="number" id="validity" data-field="validity" inputmode="numeric" min="0" step="1">
+        </div>
+      </fieldset>
+
+      <div class="btn-row no-print">
+        <button type="button" class="btn" id="loadPreset">Show the paper’s example</button>
+        <button type="button" class="btn btn-ghost" id="clearAll">Clear</button>
+      </div>
+    </form>
+
+    <div>
+      <div class="print-only" id="printReport"></div>
+      <div id="results" aria-live="polite"></div>
+
+      <div class="card" id="sensCard" hidden>
+        <h2 style="margin-top:0">If the stage takes longer</h2>
+        <p>Under a fixed stage fee the firm carries an overrun within the agreed scope. This shows what that costs at the price you have entered.</p>
+        <div class="table-scroll" id="sens"></div>
+      </div>
+
+      <div class="note-box rule">
+        <p><strong>4. Find out the benefit and test the price against it.</strong> Ask the client four questions before you settle the figure.</p>
+        <ul class="clean" style="margin-top:.4rem">
+          <li>What problem must be solved now?</li>
+          <li>What happens if nothing is done?</li>
+          <li>Which pieces of work would make the greatest difference?</li>
+          <li>What certainty or control do you need?</li>
+        </ul>
+        <p style="margin-top:.5rem">The amount at stake is context. It supplies no formula. Where value cannot sensibly be put in figures, price the agreed service from scope and cost and use the client’s aims as a check.</p>
+      </div>
+
+      <div class="card" id="scheduleCard" hidden>
+        <h2 style="margin-top:0">Schedule for this stage</h2>
+        <div id="schedule"></div>
+        <p style="font-size:.84rem;color:var(--muted);margin-bottom:0">A starting point for the schedule to the <a href="resources.html#clause">staged fixed-fee clause</a>. Adapt it to the matter and to your own engagement letter.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">7. Check fairness before you send it</h3>
+        <ul class="checks">
+          <li><input type="checkbox" id="c1"><label for="c1">I have tested the price against the Canon IV(f) factors: time and labour, difficulty and skill, customary fees, the amount involved, urgency, experience and reputation.</label></li>
+          <li><input type="checkbox" id="c2"><label for="c2">The client’s circumstances and what is at stake have been considered, and the scope matches what the client actually needs.</label></li>
+          <li><input type="checkbox" id="c3"><label for="c3">The letter says how the advance is held, when it will be billed and how I will account if the engagement ends during the stage.</label></li>
+          <li><input type="checkbox" id="c4"><label for="c4">Time and cost will still be recorded, so the fee can be explained or reviewed and the next estimate improved.</label></li>
+        </ul>
+      </div>
+
+      <div class="note-box caution">
+        <p><strong>Cost is where the price starts. It is not a legal minimum and not a licence.</strong> The fee must be fair and reasonable under Canon IV(f) in the actual circumstances, and the client may have the bill taxed under section 22 of the Legal Profession Act.</p>
+        <p>Staging does not promise that a whole contested case can be conducted for a fixed amount. A stage fee paid in advance is client money until the work is done and billed.</p>
+      </div>
+
+      <div class="btn-row no-print">
+        <button type="button" class="btn" data-print>Print or save as PDF</button>
+        <button type="button" class="btn btn-ghost" data-copy>Copy figures</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</main>
+
+<script type="module">
+import { chrome, bind, figure, workings, fmt, pct, round, isDemo, recall, setupReport, emptyState, toNumber } from './assets/ui.js?v=5';
+import { stagePrice } from './assets/calc.js?v=5';
+
+chrome('stage.html');
+
+const form = document.getElementById('inputs');
+const results = document.getElementById('results');
+const esc = (s) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+const carried = recall('costPerHour');
+if (carried && !isDemo()) {
+  document.getElementById('costPerHour').value = carried;
+  document.getElementById('costHint').innerHTML = 'Carried over from <a href="cost-per-hour.html">what an hour costs</a>';
+}
+
+function tasks() {
+  return Array.from(document.querySelectorAll('#tasks tbody tr')).map((tr) => ({
+    label: tr.querySelector('[data-t="label"]').value,
+    hours: tr.querySelector('[data-t="hours"]').value,
+    rate: tr.querySelector('[data-t="rate"]').value
+  }));
+}
+
+function render(values) {
+  const r = stagePrice({ ...values, tasks: tasks() });
+  const risks = Array.from(document.querySelectorAll('#risks input:checked')).map((el) => el.value);
+
+  if (r.taskHours <= 0 || !(r.blendedRate > 0)) {
+    results.innerHTML = emptyState(
+      'Enter the cost of an hour and the hours for at least one task.',
+      'The allocated cost of the stage appears as you type. Add a price to see what it leaves and how many hours it covers.');
+    document.getElementById('sensCard').hidden = true;
+    document.getElementById('scheduleCard').hidden = true;
+    return;
+  }
+
+  results.innerHTML = `<div class="figures">
+    ${figure({ label: 'Allocated cost of the stage', value: fmt(r.allocatedCost), note: `${round(r.budgetHours, 1)} hours budgeted`, headline: true })}
+    ${figure({ label: 'Proposed price', value: fmt(r.price), note: r.price === null ? 'Enter a price at step 5' : 'Before GCT and disbursements' })}
+    ${figure({ label: 'Left after cost', value: fmt(r.contribution), note: r.margin === null ? '' : `${pct(r.margin)} of the price`, tone: r.contribution === null ? '' : (r.contribution < 0 ? 'neg' : 'pos') })}
+    ${figure({ label: 'Hours the price covers', value: r.hoursCovered === null ? '—' : String(round(r.hoursCovered, 1)), note: 'At the cost per hour of this stage' })}
+  </div>
+  ${workings([
+    ...r.tasks.map((t) => `${esc(t.label) || 'Task'}: ${round(t.hours, 1)} hours x ${fmt(t.rate)} = ${fmt(t.cost)}`),
+    r.allowanceHours ? `Allowance for uncertainty: ${round(r.allowanceHours, 1)} hours x ${fmt(r.blendedRate)} = ${fmt(r.allowanceHours * r.blendedRate)}` : 'No hours allowed for uncertainty',
+    r.directCosts ? `Direct costs: ${fmt(r.directCosts)}` : 'No direct costs',
+    `Allocated cost = ${fmt(r.allocatedCost)} over ${round(r.budgetHours, 1)} hours`,
+    r.price === null ? 'No price entered yet' : `Hours covered = (${fmt(r.price)} - ${fmt(r.directCosts)}) / ${fmt(r.blendedRate)} = ${round(r.hoursCovered, 1)}`
+  ])}
+  ${risks.length ? `<p style="font-size:.88rem"><strong>Risks you identified:</strong> ${risks.map(esc).join(', ')}.</p>` : ''}`;
+
+  document.getElementById('sensCard').hidden = r.price === null;
+  if (r.price !== null) {
+    document.getElementById('sens').innerHTML = `<table>
+      <thead><tr><th>Outcome</th><th>Hours</th><th>Cost</th><th>Left after cost</th></tr></thead>
+      <tbody>${r.sensitivity.map((s) => `<tr class="${s.overrun === 0 ? 'highlight' : ''}">
+        <td>${s.overrun === 0 ? 'On budget' : `Overrun of ${Math.round(s.overrun * 100)}%`}</td>
+        <td>${round(s.hours, 1)}</td><td>${fmt(s.cost)}</td>
+        <td class="${s.contribution < 0 ? 'neg' : 'pos'}">${fmt(s.contribution)}</td></tr>`).join('')}</tbody>
+      <caption>The price does not move. The cost does. The lesson is about estimating and controlling scope.</caption>
+    </table>`;
+  }
+
+  const has = values.stageName || values.scope || values.assumptions || values.exclusions || r.price !== null;
+  document.getElementById('scheduleCard').hidden = !has;
+  const row = (k, v) => `<tr><th>${k}</th><td>${v}</td></tr>`;
+  const text = (v) => esc(v).replace(/\n/g, '<br>') || '[to be completed]';
+  document.getElementById('schedule').innerHTML = `<table class="schedule"><tbody>
+    ${row('Stage', esc(values.stageName) || '[name of stage]')}
+    ${row('Fixed fee for the stage', r.price === null ? '[price]' : `${fmt(r.price)}, excluding General Consumption Tax (if chargeable) and disbursements`)}
+    ${row('Scope and deliverables', text(values.scope))}
+    ${row('Assumptions', text(values.assumptions))}
+    ${row('Exclusions', text(values.exclusions))}
+    ${row('Price validity', values.validity ? `${esc(values.validity)} days, on the stated assumptions` : '[date or number of days]')}
+    ${row('Payment', 'Payable before the stage begins. Held in the clients’ trust account and transferred only against fees properly earned and billed.')}
+    ${row('Changes of scope', 'Explained and priced in writing and approved by the client before the work proceeds.')}
+  </tbody></table>`;
+}
+
+const updateReport = setupReport(form, 'Price one stage');
+bind(form, (values) => { render(values); updateReport(); });
+
+document.getElementById('loadPreset').addEventListener('click', () => {
+  form.querySelectorAll('input[type="number"], input[type="text"], textarea').forEach((el) => { el.value = ''; });
+  const set = (id, v) => { document.getElementById(id).value = v; };
+  set('costPerHour', 22727.27); set('stageName', 'First stage of a defended claim');
+  const tr = document.querySelector('#tasks tbody tr');
+  tr.querySelector('[data-t="label"]').value = 'Work budgeted for the stage';
+  tr.querySelector('[data-t="hours"]').value = 14;
+  set('allowanceHours', 1); set('price', 400000);
+  set('scope', 'Acknowledgment of service, review of the claim and records, and a written assessment of exposure, options and recommended strategy.');
+  set('assumptions', 'Records delivered within 14 days. One claimant. No new party or claim is added.');
+  set('exclusions', 'The defence, any application, negotiation and any hearing. Each is a later stage with its own price.');
+  set('validity', 30);
+  form.dispatchEvent(new Event('change'));
+});
+
+document.getElementById('clearAll').addEventListener('click', () => {
+  form.querySelectorAll('input[type="number"], input[type="text"], textarea').forEach((el) => { el.value = ''; });
+  form.querySelectorAll('input[type="checkbox"]').forEach((el) => { el.checked = false; });
+  form.dispatchEvent(new Event('change'));
+});
+
+if (isDemo()) document.getElementById('loadPreset').click();
+</script>
+</body>
+</html>
