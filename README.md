@@ -29,7 +29,7 @@ A static website. Fourteen pages, no build step, no framework, no server, no dat
 | `bonus.html` | One engagement under an hours-based bonus and a contribution-based bonus |
 | `summary.html` | The headline figures from every tool used in the session, on one page |
 | `plan.html` | The paper's checklist as four weeks, tickable and printable |
-| `resources.html` | The paper, the staged fee clause in Word and PDF, the measures and the legal sources |
+| `resources.html` | The Working Guide, the paper, the staged fee clause in Word and PDF, the measures and the legal sources |
 
 ## The rule that governs this repository
 
@@ -66,7 +66,7 @@ index.html, check.html, ...   one file per tool, each standalone
 assets/calc.js                every formula, pure functions, no DOM
 assets/ui.js                  page chrome, input binding, SVG charts, printing
 assets/styles.css             the whole design, mobile first
-paper/                        the conference paper, and the staged fee clause as .docx and .pdf
+paper/                        the Working Guide, the conference paper, and the staged fee clause as .docx and .pdf
 qr/                           QR assets for the keynote slide
 assets/brand/                 the SLS mark and the full lockup, in dark and white
 tests/                        verification against the paper

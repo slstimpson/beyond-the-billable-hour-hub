@@ -60,3 +60,13 @@ If a figure looks wrong, the paper governs. Every tool shows its own calculation
 Each calculator now keeps its headline results in the tab's session memory so the Summary page can gather them. Nothing is written to durable storage and nothing leaves the browser.
 
 Not yet checked by a person: the printed layout of the five new pages.
+
+## Added on 22 November 2026
+
+| Item | State |
+| --- | --- |
+| The Working Guide (`paper/beyond-the-billable-hour-working-guide.pdf`): an eleven-page companion for readers who were not at the keynote, with a QR code to each tool | Done |
+| Resources lists the guide first, as the short read, with the paper described as the source | Done |
+| Landing page offers the guide in one line under the three-minute check, which stays the main call to action | Done |
+
+The guide asks readers to enter their own figures. It does not tell them to load the paper's example.
